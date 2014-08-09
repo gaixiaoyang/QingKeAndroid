@@ -32,7 +32,6 @@ public class LaunchFragment extends FragmentBase implements OnItemClickListener,
 		super.onActivityCreated(savedInstanceState);
 		initTopBarForOnlyTitle("·¢ÆðÇë¿Í");
 		
-		
 	};
 
 	@Override
