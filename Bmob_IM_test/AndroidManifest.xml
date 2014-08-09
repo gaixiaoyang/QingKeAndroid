@@ -107,6 +107,8 @@
         
         <activity android:name=".ui.ImageBrowserActivity" />
         
+        <activity android:name=".ui.DetailActivity" />
+        
         <activity
             android:name="com.bmob.im.demo.ui.AddFriendActivity"
             android:windowSoftInputMode="stateHidden|adjustPan" />

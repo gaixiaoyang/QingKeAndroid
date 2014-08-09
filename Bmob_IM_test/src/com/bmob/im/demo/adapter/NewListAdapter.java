@@ -4,9 +4,11 @@ import java.util.*;
 
 import android.content.*;
 import android.view.*;
+import android.view.View.OnClickListener;
 import android.widget.*;
 
 import com.bmob.im.demo.*;
+import com.bmob.im.demo.ui.*;
 import com.nostra13.universalimageloader.core.*;
 import com.nostra13.universalimageloader.core.display.*;
 
@@ -72,11 +74,26 @@ public class NewListAdapter extends BaseAdapter {
 			holder = (ViewHolder) convertView.getTag();
 		}
 		
+		
 		imageLoader.displayImage(getItem(position).get("uri"), holder.ivPreview, options);
 		holder.tvTitle.setText(getItem(position).get("title"));
 		holder.tvContent.setText(getItem(position).get("content"));
 		holder.tvReview.setText(getItem(position).get("review"));
 		
+		holder.tvTitle.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View arg0) {
+				Intent intent = new Intent(context,DetailActivity.class);
+				context.startActivity(intent);
+			}
+		});
+		holder.tvContent.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View arg0) {
+				Intent intent = new Intent(context,DetailActivity.class);
+				context.startActivity(intent);
+			}
+		});
 		return convertView;
 	}
 	

@@ -96,8 +96,7 @@ public class ActivityFragment extends FragmentBase implements OnItemClickListene
 
 		@Override
 		public void onPullUpToRefresh(PullToRefreshBase<ListView> refreshView) {
-			// иою╜╪сть
-			new GetNewsTask(mPtflv).execute();
+			
 		}
 
 	}
