@@ -207,7 +207,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginLeft="10.0dip"
-                                android:text="地点"
+                                android:text="地点 "
                                 android:textColor="@color/TextRed"
                                 android:textSize="16.0sp" />
 
@@ -231,13 +231,6 @@
                                 android:textColorHint="@color/hintColor"
                                 android:textSize="16.0sp" />
 
-                            <ImageView
-                                android:id="@+id/importphonenum"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginRight="15.0dip"
-                                android:background="@drawable/add_contact"
-                                android:clickable="true" />
                         </LinearLayout>
 
                         <LinearLayout
