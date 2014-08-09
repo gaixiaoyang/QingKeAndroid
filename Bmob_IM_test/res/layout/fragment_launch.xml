@@ -1,0 +1,303 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/theme_bg_color"
+    android:orientation="vertical" >
+
+    <include
+        android:id="@+id/common_actionbar"
+        layout="@layout/include_action_bar" />
+    
+    <ScrollView
+        android:id="@+id/scrollview"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        >
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:orientation="vertical" >
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
+                android:orientation="vertical" >
+
+                <LinearLayout
+                    android:id="@+id/linearLayout1"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10.0dip"
+                    android:layout_marginRight="10.0dip"
+                    android:layout_marginTop="15.0dip"
+                    android:orientation="vertical" >
+
+                    <LinearLayout
+                        android:layout_width="fill_parent"
+                        android:layout_height="50.0dip"
+                        android:background="@+drawable/regist_bg_circle"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal" >
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="10.0dip"
+                            android:text="姓名 "
+                            android:textColor="@color/TextRed"
+                            android:textSize="16.0sp" />
+
+                        <View
+                            android:layout_width="1.0dip"
+                            android:layout_height="fill_parent"
+                            android:layout_marginRight="5.0dip"
+                            android:background="@drawable/redline" />
+
+                        <EditText
+                            android:id="@+id/tv_name"
+                            android:layout_width="fill_parent"
+                            android:layout_height="fill_parent"
+                            android:layout_weight="1.0"
+                            android:background="@null"
+                            android:dropDownHorizontalOffset="-10.0dip"
+                            android:dropDownSelector="#fff4e7dd"
+                            android:dropDownVerticalOffset="0.0dip"
+                            android:gravity="center_vertical"
+                            android:hint="请输入姓名"
+                            android:singleLine="true"
+                            android:textColor="@color/dark"
+                            android:textColorHint="@color/hintColor"
+                            android:textSize="16.0sp" />
+
+                        <ImageView
+                            android:id="@+id/importcontact"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginRight="15.0dip"
+                            android:background="@drawable/add_contact"
+                            android:clickable="true" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="fill_parent"
+                        android:layout_height="50.0dip"
+                        android:layout_marginTop="5.0dip"
+                        android:background="@drawable/regist_bg_circle"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal" >
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="10.0dip"
+                            android:text="性别 "
+                            android:textColor="@color/TextRed"
+                            android:textSize="16.0sp" />
+
+                        <View
+                            android:layout_width="1.0dip"
+                            android:layout_height="fill_parent"
+                            android:layout_marginRight="5.0dip"
+                            android:background="@drawable/redline" />
+
+                        <RadioGroup
+                            android:id="@+id/gender"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal" >
+
+                            <RadioButton
+                                android:id="@+id/gender_boy"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:button="@drawable/add_brith_xingbie"
+                                android:checked="true"
+                                android:text="男"
+                                android:textColor="@color/dark"
+                                android:textColorHint="@drawable/add_brith_xingbie_fontcolor"
+                                android:textSize="16.0sp" />
+
+                            <RadioButton
+                                android:id="@+id/gender_girl"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="20.0dip"
+                                android:button="@drawable/add_brith_xingbie"
+                                android:text="女"
+                                android:textColor="@color/dark"
+                                android:textSize="16.0sp" />
+                        </RadioGroup>
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="5.0dip"
+                        android:background="@drawable/regist_bg_circle"
+                        android:gravity="center_vertical"
+                        android:minHeight="50.0dip"
+                        android:orientation="horizontal" >
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="10.0dip"
+                            android:text="生日 "
+                            android:textColor="@color/TextRed"
+                            android:textSize="16.0sp" />
+
+                        <View
+                            android:layout_width="1.0dip"
+                            android:layout_height="fill_parent"
+                            android:layout_marginRight="5.0dip"
+                            android:background="@drawable/redline" />
+
+                        <TextView
+                            android:id="@+id/tv_birthday"
+                            android:layout_width="wrap_content"
+                            android:layout_height="fill_parent"
+                            android:layout_weight="1.0"
+                            android:gravity="center_vertical"
+                            android:hint="点击设置生日"
+                            android:singleLine="true"
+                            android:textColor="@color/dark"
+                            android:textColorHint="@color/hintColor"
+                            android:textSize="13.0sp" />
+
+                        <TextView
+                            android:id="@+id/birthday_tip"
+                            android:layout_width="wrap_content"
+                            android:layout_height="fill_parent"
+                            android:layout_weight="2.0"
+                            android:gravity="center_vertical"
+                            android:singleLine="true"
+                            android:text=""
+                            android:textSize="8.0sp" />
+
+                        <ImageView
+                            android:id="@+id/send_sms"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginRight="15.0dip"
+                            android:background="@drawable/add_brith_brith_duanxin" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/layout_more"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:visibility="visible" >
+
+                        <LinearLayout
+                            android:id="@+id/add_phone"
+                            android:layout_width="fill_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="5.0dip"
+                            android:background="@drawable/regist_bg_circle"
+                            android:gravity="center_vertical"
+                            android:minHeight="50.0dip"
+                            android:orientation="horizontal" >
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="10.0dip"
+                                android:text="手机 "
+                                android:textColor="@color/TextRed"
+                                android:textSize="16.0sp" />
+
+                            <View
+                                android:layout_width="1.0dip"
+                                android:layout_height="fill_parent"
+                                android:layout_marginRight="5.0dip"
+                                android:background="@drawable/redline" />
+
+                            <EditText
+                                android:id="@+id/tv_phone"
+                                android:layout_width="fill_parent"
+                                android:layout_height="fill_parent"
+                                android:layout_weight="1.0"
+                                android:background="@null"
+                                android:gravity="center_vertical"
+                                android:hint="用于发送定时祝福短信"
+                                android:numeric="integer"
+                                android:singleLine="true"
+                                android:textColor="@color/dark"
+                                android:textColorHint="@color/hintColor"
+                                android:textSize="16.0sp" />
+
+                            <ImageView
+                                android:id="@+id/importphonenum"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginRight="15.0dip"
+                                android:background="@drawable/add_contact"
+                                android:clickable="true" />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="fill_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="5.0dip"
+                            android:background="@drawable/regist_bg_circle"
+                            android:gravity="center_vertical"
+                            android:minHeight="50.0dip"
+                            android:orientation="horizontal" >
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="10.0dip"
+                                android:text="备注 "
+                                android:textColor="@color/TextRed"
+                                android:textSize="16.0sp" />
+
+                            <View
+                                android:layout_width="1.0dip"
+                                android:layout_height="fill_parent"
+                                android:layout_marginRight="5.0dip"
+                                android:background="@drawable/redline" />
+
+                            <EditText
+                                android:id="@+id/tv_content"
+                                android:layout_width="fill_parent"
+                                android:layout_height="fill_parent"
+                                android:layout_weight="1.0"
+                                android:background="@null"
+                                android:gravity="center_vertical"
+                                android:hint="如预订餐厅，购买礼物"
+                                android:singleLine="true"
+                                android:textColor="@color/dark"
+                                android:textColorHint="@color/hintColor"
+                                android:textSize="16.0sp" />
+                        </LinearLayout>
+                    </LinearLayout>
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <ImageView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/bgedge" />
+
+            <Button
+                android:id="@+id/btn_save"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10.0dip"
+                android:background="@drawable/add_brith_baocun"
+                android:text="支付"
+                android:textColor="@color/white"
+                android:textSize="20.0sp"
+                android:textStyle="bold" />
+        </LinearLayout>
+    </ScrollView>
+
+</LinearLayout>
