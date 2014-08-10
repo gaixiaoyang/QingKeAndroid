@@ -1,32 +1,27 @@
-package com.bmob.im.demo.ui.fragment;
+package com.bmob.im.demo.ui;
 
-import android.annotation.*;
 import android.os.*;
 import android.text.format.*;
-import android.view.*;
 import android.widget.*;
-import android.widget.AdapterView.OnItemClickListener;
-import android.widget.AdapterView.OnItemLongClickListener;
 
 import com.bmob.im.demo.R;
 import com.bmob.im.demo.adapter.*;
-import com.bmob.im.demo.ui.*;
 import com.bmob.im.demo.util.*;
 import com.handmark.pulltorefresh.library.*;
 import com.handmark.pulltorefresh.library.PullToRefreshBase.Mode;
 import com.handmark.pulltorefresh.library.PullToRefreshBase.OnRefreshListener2;
 
 /**
- * 活动列表
+ * 我加入的请客
  * 
- * @ClassName: ActivityFragment
- * @Description: TODO
- * @author smile
- * @date 2014-6-7 下午1:02:05
+ * @Title: MyJoinActivity.java
+ * @Package com.bmob.im.demo.ui
+ * @author xiaoyang
+ * @date 2014-8-9 下午5:52:14
+ * @version V1.0
  */
-@SuppressLint("DefaultLocale")
-public class ActivityFragment extends FragmentBase implements OnItemClickListener, OnItemLongClickListener {
-
+public class MyJoinActivity extends BaseActivity {
+	
 	public static final int HTTP_REQUEST_SUCCESS = -1;
 	
 	public static final int HTTP_REQUEST_ERROR = 0;
@@ -34,28 +29,17 @@ public class ActivityFragment extends FragmentBase implements OnItemClickListene
 	private PullToRefreshListView pullToRefreshListView = null;
 	
 	private NewListAdapter newAdapter = null;
-	
-	@Override
-	public void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-	}
 
 	@Override
-	public View onCreateView(LayoutInflater inflater, ViewGroup container,
-			Bundle savedInstanceState) {
-		return inflater.inflate(R.layout.fragment_activity, container, false);
-	}
-	
-	@Override
-	public void onActivityCreated(android.os.Bundle savedInstanceState) {
-		super.onActivityCreated(savedInstanceState);
-		//activity_view = LayoutInflater.from(this.getActivity()).inflate(R.layout.fragment_activity, null);
-		newAdapter = new NewListAdapter(this.getActivity(), NewsUtil.getSimulationNews(10));
+	protected void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		setContentView(R.layout.activity_my_join);
+		newAdapter = new NewListAdapter(this, NewsUtil.getSimulationNews(10));
 		pullToRefreshListView = (PullToRefreshListView) this.findViewById(R.id.list_activity);
-		initTopBarForOnlyTitle("周围的请客");
+		initTopBarForLeft("我加入的请客");
 		initPullToRefreshListView(pullToRefreshListView, newAdapter);
-	};
-	
+	}
+
 	private void initPullToRefreshListView(PullToRefreshListView rtflv,
 			NewListAdapter adapter) {
 		rtflv.setMode(Mode.PULL_FROM_START);
@@ -63,16 +47,6 @@ public class ActivityFragment extends FragmentBase implements OnItemClickListene
 		rtflv.setAdapter(adapter);
 	}
 
-	@Override
-	public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-		return false;
-	}
-
-	@Override
-	public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
-	}
-	
 	class MyOnRefreshListener2 implements OnRefreshListener2<ListView> {
 
 		private final PullToRefreshListView mPtflv;
@@ -84,7 +58,7 @@ public class ActivityFragment extends FragmentBase implements OnItemClickListene
 		@Override
 		public void onPullDownToRefresh(PullToRefreshBase<ListView> refreshView) {
 			// 下拉刷新
-			String label = DateUtils.formatDateTime(ActivityFragment.this.getActivity(),
+			String label = DateUtils.formatDateTime(MyJoinActivity.this,
 					System.currentTimeMillis(), DateUtils.FORMAT_SHOW_TIME
 							| DateUtils.FORMAT_SHOW_DATE
 							| DateUtils.FORMAT_ABBREV_ALL);
@@ -116,7 +90,7 @@ public class ActivityFragment extends FragmentBase implements OnItemClickListene
 
 		@Override
 		protected Integer doInBackground(String... params) {
-			if (CommonUtils.isWifiConnected(ActivityFragment.this.getActivity())) {
+			if (CommonUtils.isWifiConnected(MyJoinActivity.this)) {
 				try {
 					Thread.sleep(1000);
 					return HTTP_REQUEST_SUCCESS;
@@ -136,13 +110,11 @@ public class ActivityFragment extends FragmentBase implements OnItemClickListene
 				newAdapter.notifyDataSetChanged();
 				break;
 			case HTTP_REQUEST_ERROR:
-				Toast.makeText(ActivityFragment.this.getActivity(), "请检查网络", Toast.LENGTH_SHORT)
+				Toast.makeText(MyJoinActivity.this, "请检查网络", Toast.LENGTH_SHORT)
 						.show();
 				break;
 			}
 			mPtrlv.onRefreshComplete();
 		}
-
 	}
-
 }

@@ -2,11 +2,11 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.bmob.im.demo"
     android:versionCode="9"
-    android:versionName="1.0.9" >
+    android:versionName="0.1.0" >
 
     <uses-sdk
         android:minSdkVersion="8"
-        android:targetSdkVersion="14" />
+        android:targetSdkVersion="16" />
     
      <supports-screens
         android:anyDensity="true"
@@ -108,6 +108,12 @@
         <activity android:name=".ui.ImageBrowserActivity" />
         
         <activity android:name=".ui.DetailActivity" />
+        
+        <activity android:name=".ui.UserInfoActivity" />
+        
+        <activity android:name=".ui.MyLaunchActivity" />
+        
+        <activity android:name=".ui.MyJoinActivity" />
         
         <activity
             android:name="com.bmob.im.demo.ui.AddFriendActivity"

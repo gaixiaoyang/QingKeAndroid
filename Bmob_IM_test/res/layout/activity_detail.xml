@@ -10,65 +10,161 @@
         android:id="@+id/common_actionbar"
         layout="@layout/include_action_bar" />
     
-    <LinearLayout
+   <ScrollView
+        android:id="@+id/scrollview"
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center_horizontal"
-        android:orientation="vertical" >
-        
-         <LinearLayout
-             android:layout_width="fill_parent"
-             android:layout_height="wrap_content"
-             android:layout_marginTop="5.0dip"
-             android:background="@drawable/regist_bg_circle"
-             android:gravity="center_vertical"
-             android:minHeight="350.0dip"
-             android:orientation="horizontal" >
+        android:layout_height="fill_parent"
+        >
 
-             <TextView
-                 android:layout_width="wrap_content"
-                 android:layout_height="wrap_content"
-                 android:layout_marginLeft="10.0dip"
-                 android:text="请客详情 "
-                 android:textColor="@color/TextRed"
-                 android:textSize="16.0sp" />
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:orientation="vertical" >
 
-             <View
-                 android:layout_width="1.0dip"
-                 android:layout_height="fill_parent"
-                 android:layout_marginRight="5.0dip"
-                 android:background="@drawable/redline" />
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
+                android:orientation="vertical" >
 
-             <EditText
-                 android:id="@+id/tv_content"
-                 android:layout_width="fill_parent"
-                 android:layout_height="fill_parent"
-                 android:layout_weight="1.0"
-                 android:background="@null"
-                 android:gravity="center_vertical"
-                 android:hint="如预订餐厅，购买电影票"
-                 android:singleLine="true"
-                 android:textColor="@color/dark"
-                 android:textColorHint="@color/hintColor"
-                 android:textSize="16.0sp" />
-         </LinearLayout>
+                <LinearLayout
+                    android:id="@+id/linearLayout1"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10.0dip"
+                    android:layout_marginRight="10.0dip"
+                    android:layout_marginTop="15.0dip"
+                    android:orientation="vertical" >
+
+                    <LinearLayout
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="5.0dip"
+                        android:background="@drawable/regist_bg_circle"
+                        android:gravity="center_vertical"
+                        android:minHeight="50.0dip"
+                        android:orientation="horizontal" >
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="10.0dip"
+                            android:text="时间 "
+                            android:textColor="@color/TextRed"
+                            android:textSize="16.0sp" />
+
+                        <View
+                            android:layout_width="1.0dip"
+                            android:layout_height="fill_parent"
+                            android:layout_marginRight="5.0dip"
+                            android:background="@drawable/redline" />
+
+                       <TextView
+				            android:id="@+id/detail_time"
+				            android:layout_width="wrap_content"
+				            android:layout_height="wrap_content"
+                            android:textColor="@color/dark"
+                            android:textColorHint="@color/hintColor"
+                            android:textSize="16.0sp" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/layout_more"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:visibility="visible" >
+
+                        <LinearLayout
+                            android:id="@+id/add_phone"
+                            android:layout_width="fill_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="5.0dip"
+                            android:background="@drawable/regist_bg_circle"
+                            android:gravity="center_vertical"
+                            android:minHeight="50.0dip"
+                            android:orientation="horizontal" >
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="10.0dip"
+                                android:text="地点 "
+                                android:textColor="@color/TextRed"
+                                android:textSize="16.0sp" />
+
+                            <View
+                                android:layout_width="1.0dip"
+                                android:layout_height="fill_parent"
+                                android:layout_marginRight="5.0dip"
+                                android:background="@drawable/redline" />
+
+                            <TextView
+					            android:id="@+id/detail_place"
+					            android:layout_width="wrap_content"
+					            android:layout_height="wrap_content"
+	                            android:textColor="@color/dark"
+	                            android:textColorHint="@color/hintColor"
+	                            android:textSize="16.0sp" />
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="fill_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="5.0dip"
+                            android:background="@drawable/regist_bg_circle"
+                            android:gravity="center_vertical"
+                            android:minHeight="50.0dip"
+                            android:orientation="horizontal" >
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="10.0dip"
+                                android:text="内容 "
+                                android:textColor="@color/TextRed"
+                                android:textSize="16.0sp" />
+
+                            <View
+                                android:layout_width="1.0dip"
+                                android:layout_height="fill_parent"
+                                android:layout_marginRight="5.0dip"
+                                android:background="@drawable/redline" />
+
+                            <TextView
+					            android:id="@+id/detail_content"
+					            android:layout_width="wrap_content"
+					            android:layout_height="wrap_content"
+					            android:minHeight="200.0dip"
+	                            android:textColor="@color/dark"
+	                            android:textColorHint="@color/hintColor"
+	                            android:textSize="16.0sp" />
+                        </LinearLayout>
+                    </LinearLayout>
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <ImageView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/bgedge" />
+
+            <Button
+                android:id="@+id/btn_save"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10.0dip"
+                android:background="@drawable/add_brith_baocun"
+                android:text="申请加入"
+                android:textColor="@color/white"
+                android:textSize="20.0sp"
+                android:textStyle="bold" />
+        </LinearLayout>
+    </ScrollView>
     
-	     <ImageView
-	         android:layout_width="fill_parent"
-	         android:layout_height="wrap_content"
-	         android:background="@drawable/bgedge" />
-	
-	     <Button
-	         android:id="@+id/btn_save"
-	         android:layout_width="wrap_content"
-	         android:layout_height="wrap_content"
-	         android:layout_marginTop="10.0dip"
-	         android:background="@drawable/add_brith_baocun"
-	         android:text=" 申请加入"
-	         android:textColor="@color/white"
-	         android:textSize="20.0sp"
-	         android:textStyle="bold" />
-
-	 </LinearLayout>
-	 
 </LinearLayout>

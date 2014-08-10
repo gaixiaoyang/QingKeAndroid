@@ -1,25 +1,16 @@
 package com.bmob.im.demo.ui.fragment;
 
-import android.annotation.SuppressLint;
-import android.content.Intent;
-import android.os.Bundle;
-import android.view.LayoutInflater;
-import android.view.View;
+import android.annotation.*;
+import android.content.*;
+import android.os.*;
+import android.view.*;
 import android.view.View.OnClickListener;
-import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.ImageView;
-import android.widget.RelativeLayout;
-import android.widget.TextView;
-import cn.bmob.im.BmobUserManager;
+import android.widget.*;
+import cn.bmob.im.*;
 
-import com.bmob.im.demo.CustomApplcation;
-import com.bmob.im.demo.R;
-import com.bmob.im.demo.ui.BlackListActivity;
-import com.bmob.im.demo.ui.FragmentBase;
-import com.bmob.im.demo.ui.LoginActivity;
-import com.bmob.im.demo.ui.SetMyInfoActivity;
-import com.bmob.im.demo.util.SharePreferenceUtil;
+import com.bmob.im.demo.*;
+import com.bmob.im.demo.ui.*;
+import com.bmob.im.demo.util.*;
 
 /**
  * 设置
@@ -34,7 +25,7 @@ public class SettingsFragment extends FragmentBase implements OnClickListener{
 
 	Button btn_logout;
 	TextView tv_set_name;
-	RelativeLayout layout_info, rl_switch_notification, rl_switch_voice,
+	RelativeLayout layout_info, layout_user, rl_switch_notification, rl_switch_voice,
 			rl_switch_vibrate,layout_blacklist;
 
 	ImageView iv_open_notification, iv_close_notification, iv_open_voice,
@@ -72,6 +63,7 @@ public class SettingsFragment extends FragmentBase implements OnClickListener{
 		layout_blacklist = (RelativeLayout) findViewById(R.id.layout_blacklist);
 		
 		layout_info = (RelativeLayout) findViewById(R.id.layout_info);
+		layout_user = (RelativeLayout) findViewById(R.id.layout_user);
 		rl_switch_notification = (RelativeLayout) findViewById(R.id.rl_switch_notification);
 		rl_switch_voice = (RelativeLayout) findViewById(R.id.rl_switch_voice);
 		rl_switch_vibrate = (RelativeLayout) findViewById(R.id.rl_switch_vibrate);
@@ -85,8 +77,8 @@ public class SettingsFragment extends FragmentBase implements OnClickListener{
 		iv_close_voice = (ImageView) findViewById(R.id.iv_close_voice);
 		iv_open_vibrate = (ImageView) findViewById(R.id.iv_open_vibrate);
 		iv_close_vibrate = (ImageView) findViewById(R.id.iv_close_vibrate);
-		view1 = (View) findViewById(R.id.view1);
-		view2 = (View) findViewById(R.id.view2);
+		view1 = findViewById(R.id.view1);
+		view2 = findViewById(R.id.view2);
 
 		tv_set_name = (TextView) findViewById(R.id.tv_set_name);
 		btn_logout = (Button) findViewById(R.id.btn_logout);
@@ -119,6 +111,7 @@ public class SettingsFragment extends FragmentBase implements OnClickListener{
 		}
 		btn_logout.setOnClickListener(this);
 		layout_info.setOnClickListener(this);
+		layout_user.setOnClickListener(this);
 		layout_blacklist.setOnClickListener(this);
 
 	}
@@ -142,9 +135,13 @@ public class SettingsFragment extends FragmentBase implements OnClickListener{
 			startAnimActivity(new Intent(getActivity(),BlackListActivity.class));
 			break;
 		case R.id.layout_info:// 启动到个人资料页面
-			Intent intent =new Intent(getActivity(),SetMyInfoActivity.class);
-			intent.putExtra("from", "me");
-			startActivity(intent);
+			Intent intent1 =new Intent(getActivity(),SetMyInfoActivity.class);
+			intent1.putExtra("from", "me");
+			startActivity(intent1);
+			break;
+		case R.id.layout_user:// 启动到我的请客页面
+			Intent intent2 =new Intent(getActivity(),UserInfoActivity.class);
+			startActivity(intent2);
 			break;
 		case R.id.btn_logout:
 			CustomApplcation.getInstance().logout();
