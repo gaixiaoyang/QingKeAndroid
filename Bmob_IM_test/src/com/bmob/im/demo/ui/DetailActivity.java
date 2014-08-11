@@ -1,13 +1,15 @@
 package com.bmob.im.demo.ui;
 
+import android.content.*;
 import android.os.*;
 import android.view.*;
+import android.view.View.OnClickListener;
 import android.widget.*;
 
 import com.bmob.im.demo.*;
 
 /**
- * DetailActivity
+ * 活动详情页
  * 
  * @Title: DetailActivity.java
  * @Package com.bmob.im.demo.ui
@@ -15,7 +17,7 @@ import com.bmob.im.demo.*;
  * @date 2014-8-9 下午5:52:14
  * @version V1.0
  */
-public class DetailActivity extends BaseActivity {
+public class DetailActivity extends ActivityBase implements OnClickListener{
 	
 	private TextView detail_time = null;
 	private TextView detail_place = null;
@@ -52,6 +54,19 @@ public class DetailActivity extends BaseActivity {
 			btn_check.setVisibility(View.INVISIBLE);
 		}else if(from.equals("activity")){
 			btn_check.setVisibility(View.INVISIBLE);
+		}
+	}
+
+	@Override
+	public void onClick(View v) {
+		switch (v.getId()) {
+		case R.id.btn_save:
+			// TODO
+			break;
+		case R.id.btn_check:
+			Intent intent = new Intent(this,MyJoinActivity.class);
+			startActivity(intent);
+			break;
 		}
 	}
 	

@@ -115,6 +115,8 @@
         
         <activity android:name=".ui.MyJoinActivity" />
         
+        <activity android:name=".ui.ApplyListActivity" />
+        
         <activity
             android:name="com.bmob.im.demo.ui.AddFriendActivity"
             android:windowSoftInputMode="stateHidden|adjustPan" />
