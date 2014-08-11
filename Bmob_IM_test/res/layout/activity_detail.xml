@@ -153,7 +153,18 @@
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:background="@drawable/bgedge" />
-
+            
+            <Button
+                android:id="@+id/btn_check"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10.0dip"
+                android:background="@drawable/add_brith_baocun"
+                android:text="查看申请者列表"
+                android:textColor="@color/white"
+                android:textSize="20.0sp"
+                android:textStyle="bold" />
+            
             <Button
                 android:id="@+id/btn_save"
                 android:layout_width="wrap_content"
@@ -164,6 +175,7 @@
                 android:textColor="@color/white"
                 android:textSize="20.0sp"
                 android:textStyle="bold" />
+            
         </LinearLayout>
     </ScrollView>
     
