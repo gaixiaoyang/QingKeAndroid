@@ -17,6 +17,7 @@ public class NewListAdapter extends BaseAdapter {
 	
 	private ImageLoader imageLoader = null;
 	private	DisplayImageOptions options = null;
+	private String from = "";
 	
 	static class ViewHolder {
 		ImageView ivPreview;
@@ -29,9 +30,10 @@ public class NewListAdapter extends BaseAdapter {
 	private final List<HashMap<String, String>> news;
 
 	@SuppressWarnings("deprecation")
-	public NewListAdapter(Context context,List<HashMap<String, String>> news) {
+	public NewListAdapter(Context context,List<HashMap<String, String>> news,String from) {
 		this.context = context;
 		this.news = news;
+		this.from = from;
 		imageLoader = ImageLoader.getInstance();
 		imageLoader.init(ImageLoaderConfiguration.createDefault(context));
 		
@@ -84,6 +86,7 @@ public class NewListAdapter extends BaseAdapter {
 			@Override
 			public void onClick(View arg0) {
 				Intent intent = new Intent(context,DetailActivity.class);
+				intent.putExtra("from", from);
 				context.startActivity(intent);
 			}
 		});
@@ -91,6 +94,7 @@ public class NewListAdapter extends BaseAdapter {
 			@Override
 			public void onClick(View arg0) {
 				Intent intent = new Intent(context,DetailActivity.class);
+				intent.putExtra("from", from);
 				context.startActivity(intent);
 			}
 		});

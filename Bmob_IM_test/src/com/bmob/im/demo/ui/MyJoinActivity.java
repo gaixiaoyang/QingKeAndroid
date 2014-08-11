@@ -34,7 +34,7 @@ public class MyJoinActivity extends BaseActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_my_join);
-		newAdapter = new NewListAdapter(this, NewsUtil.getSimulationNews(10));
+		newAdapter = new NewListAdapter(this, NewsUtil.getSimulationNews(10),"myjoin");
 		pullToRefreshListView = (PullToRefreshListView) this.findViewById(R.id.list_activity);
 		initTopBarForLeft("我加入的请客");
 		initPullToRefreshListView(pullToRefreshListView, newAdapter);

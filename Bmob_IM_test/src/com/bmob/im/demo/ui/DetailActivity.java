@@ -19,11 +19,13 @@ public class DetailActivity extends BaseActivity {
 	private TextView detail_time = null;
 	private TextView detail_place = null;
 	private TextView detail_content = null;
+	private String from = "";
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_detail);
+		from = getIntent().getStringExtra("from");
 		initTopBarForLeft("赵自强的请客");
 		initDetailView();
 	}
@@ -36,6 +38,10 @@ public class DetailActivity extends BaseActivity {
 		detail_time.setText("2014-08-08 12:10");
 		detail_place.setText("北京市朝阳区花家地望京小腰");
 		detail_content.setText("欢迎前来\n欢迎美女\n欢迎汉子");
+		
+		if(from.equals("mylaunch")){
+			
+		}
 	}
 	
 }

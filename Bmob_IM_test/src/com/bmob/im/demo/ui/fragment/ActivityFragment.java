@@ -50,7 +50,7 @@ public class ActivityFragment extends FragmentBase implements OnItemClickListene
 	public void onActivityCreated(android.os.Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
 		//activity_view = LayoutInflater.from(this.getActivity()).inflate(R.layout.fragment_activity, null);
-		newAdapter = new NewListAdapter(this.getActivity(), NewsUtil.getSimulationNews(10));
+		newAdapter = new NewListAdapter(this.getActivity(), NewsUtil.getSimulationNews(10),"activity");
 		pullToRefreshListView = (PullToRefreshListView) this.findViewById(R.id.list_activity);
 		initTopBarForOnlyTitle("ÖÜÎ§µÄÇë¿Í");
 		initPullToRefreshListView(pullToRefreshListView, newAdapter);

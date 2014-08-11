@@ -1,55 +1,35 @@
 package com.bmob.im.demo.ui;
 
-import java.io.File;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.List;
+import java.io.*;
+import java.text.*;
+import java.util.*;
 
-import android.annotation.SuppressLint;
-import android.annotation.TargetApi;
-import android.app.ProgressDialog;
-import android.content.DialogInterface;
-import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.drawable.BitmapDrawable;
-import android.net.Uri;
-import android.os.Build;
-import android.os.Bundle;
-import android.os.Environment;
-import android.provider.MediaStore;
-import android.util.Log;
-import android.view.Gravity;
-import android.view.LayoutInflater;
-import android.view.MotionEvent;
-import android.view.View;
+import android.annotation.*;
+import android.app.*;
+import android.content.*;
+import android.graphics.*;
+import android.graphics.drawable.*;
+import android.net.*;
+import android.os.*;
+import android.provider.*;
+import android.util.*;
+import android.view.*;
 import android.view.View.OnClickListener;
 import android.view.View.OnTouchListener;
-import android.view.WindowManager;
-import android.widget.Button;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.PopupWindow;
-import android.widget.RelativeLayout;
-import android.widget.TextView;
-import cn.bmob.im.BmobChatManager;
-import cn.bmob.im.db.BmobDB;
-import cn.bmob.im.inteface.MsgTag;
-import cn.bmob.im.util.BmobLog;
-import cn.bmob.v3.datatype.BmobFile;
-import cn.bmob.v3.listener.FindListener;
-import cn.bmob.v3.listener.PushListener;
-import cn.bmob.v3.listener.UpdateListener;
-import cn.bmob.v3.listener.UploadFileListener;
+import android.widget.*;
+import cn.bmob.im.*;
+import cn.bmob.im.db.*;
+import cn.bmob.im.inteface.*;
+import cn.bmob.im.util.*;
+import cn.bmob.v3.datatype.*;
+import cn.bmob.v3.listener.*;
 
-import com.bmob.im.demo.CustomApplcation;
-import com.bmob.im.demo.R;
-import com.bmob.im.demo.bean.User;
-import com.bmob.im.demo.config.BmobConstants;
-import com.bmob.im.demo.util.CollectionUtils;
-import com.bmob.im.demo.util.ImageLoadOptions;
-import com.bmob.im.demo.util.PhotoUtil;
-import com.bmob.im.demo.view.dialog.DialogTips;
-import com.nostra13.universalimageloader.core.ImageLoader;
+import com.bmob.im.demo.*;
+import com.bmob.im.demo.bean.*;
+import com.bmob.im.demo.config.*;
+import com.bmob.im.demo.util.*;
+import com.bmob.im.demo.view.dialog.*;
+import com.nostra13.universalimageloader.core.*;
 
 /** 个人资料页面
   * @ClassName: SetMyInfoActivity
@@ -66,7 +46,7 @@ public class SetMyInfoActivity extends ActivityBase implements OnClickListener{
 	LinearLayout layout_all;
 
 	Button btn_chat,btn_back,btn_add_friend;
-	RelativeLayout layout_head, layout_nick,layout_black_tips;
+	RelativeLayout layout_head, layout_nick,layout_black_tips,layout_career,layout_area,layout_introduce;
 
 	String from="";
 	String username = "";
@@ -96,6 +76,9 @@ public class SetMyInfoActivity extends ActivityBase implements OnClickListener{
 		tv_set_nick = (TextView) findViewById(R.id.tv_set_nick);
 		layout_head = (RelativeLayout) findViewById(R.id.layout_head);
 		layout_nick = (RelativeLayout) findViewById(R.id.layout_nick);
+		layout_career = (RelativeLayout) findViewById(R.id.layout_career);
+		layout_area = (RelativeLayout) findViewById(R.id.layout_area);
+		layout_introduce = (RelativeLayout) findViewById(R.id.layout_introduce);
 		//黑名单提示语
 		layout_black_tips = (RelativeLayout) findViewById(R.id.layout_black_tips);
 		tv_set_gender = (TextView) findViewById(R.id.tv_set_gender);
@@ -109,6 +92,9 @@ public class SetMyInfoActivity extends ActivityBase implements OnClickListener{
 			initTopBarForLeft("个人资料");
 			layout_head.setOnClickListener(this);
 			layout_nick.setOnClickListener(this);
+			layout_career.setOnClickListener(this);
+			layout_area.setOnClickListener(this);
+			layout_introduce.setOnClickListener(this);
 			iv_nickarraw.setVisibility(View.VISIBLE);
 			iv_arraw.setVisibility(View.VISIBLE);
 			btn_back.setVisibility(View.GONE);
@@ -238,6 +224,15 @@ public class SetMyInfoActivity extends ActivityBase implements OnClickListener{
 		case R.id.layout_nick:
 			startAnimActivity(UpdateInfoActivity.class);
 			break;
+		case R.id.layout_career:
+			startAnimActivity(UpdateInfoActivity.class);
+			break;
+		case R.id.layout_area:
+			startAnimActivity(UpdateInfoActivity.class);
+			break;
+		case R.id.layout_introduce:
+			startAnimActivity(UpdateInfoActivity.class);
+			break;
 		case R.id.btn_back://黑名单
 			showBlackDialog(user.getUsername());
 			break;
@@ -290,6 +285,7 @@ public class SetMyInfoActivity extends ActivityBase implements OnClickListener{
 	private void showBlackDialog(final String username){
 		DialogTips dialog = new DialogTips(this,"加入黑名单","加入黑名单，你将不再收到对方的消息，确定要继续吗？", "确定",true,true);
 		dialog.SetOnSuccessListener(new DialogInterface.OnClickListener() {
+			@Override
 			public void onClick(DialogInterface dialogInterface, int userId) {
 				//添加到黑名单列表
 				userManager.addBlack(username,new UpdateListener() {
@@ -518,7 +514,7 @@ public class SetMyInfoActivity extends ActivityBase implements OnClickListener{
 	}
 	
 	private void updateUserAvatar(final String url){
-		User user = (User) userManager.getCurrentUser(User.class);
+		User user = userManager.getCurrentUser(User.class);
 		user.setAvatar(url);
 		user.update(this, new UpdateListener() {
 		    @Override

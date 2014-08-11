@@ -34,7 +34,7 @@ public class MyLaunchActivity extends BaseActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_my_launch);
-		newAdapter = new NewListAdapter(this, NewsUtil.getSimulationNews(10));
+		newAdapter = new NewListAdapter(this, NewsUtil.getSimulationNews(10),"mylaunch");
 		pullToRefreshListView = (PullToRefreshListView) this.findViewById(R.id.list_activity);
 		initTopBarForLeft("我发起的请客");
 		initPullToRefreshListView(pullToRefreshListView, newAdapter);
