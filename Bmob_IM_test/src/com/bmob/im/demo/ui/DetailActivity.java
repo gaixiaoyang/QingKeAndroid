@@ -43,6 +43,9 @@ public class DetailActivity extends ActivityBase implements OnClickListener{
 		btn_save = (Button)findViewById(R.id.btn_save);
 		btn_check = (Button)findViewById(R.id.btn_check);
 		
+		btn_save.setOnClickListener(this);
+		btn_check.setOnClickListener(this);
+		
 		detail_time.setText("2014-08-08 12:10");
 		detail_place.setText("北京市朝阳区花家地望京小腰");
 		detail_content.setText("欢迎前来\n欢迎美女\n欢迎汉子");
@@ -60,13 +63,14 @@ public class DetailActivity extends ActivityBase implements OnClickListener{
 	@Override
 	public void onClick(View v) {
 		switch (v.getId()) {
-		case R.id.btn_save:
-			// TODO
-			break;
-		case R.id.btn_check:
-			Intent intent = new Intent(this,MyJoinActivity.class);
-			startActivity(intent);
-			break;
+			case R.id.btn_save:
+				//TODO
+				
+				break;
+			case R.id.btn_check:
+				Intent intent2 = new Intent(this,ApplyListActivity.class);
+				startActivity(intent2);
+				break;
 		}
 	}
 	
