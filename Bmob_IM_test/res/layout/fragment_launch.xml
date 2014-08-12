@@ -157,7 +157,7 @@
                             android:background="@drawable/redline" />
 
                         <TextView
-                            android:id="@+id/tv_birthday"
+                            android:id="@+id/tv_time"
                             android:layout_width="wrap_content"
                             android:layout_height="fill_parent"
                             android:layout_weight="1.0"
@@ -167,23 +167,7 @@
                             android:textColor="@color/dark"
                             android:textColorHint="@color/hintColor"
                             android:textSize="13.0sp" />
-
-                        <TextView
-                            android:id="@+id/birthday_tip"
-                            android:layout_width="wrap_content"
-                            android:layout_height="fill_parent"
-                            android:layout_weight="2.0"
-                            android:gravity="center_vertical"
-                            android:singleLine="true"
-                            android:text=""
-                            android:textSize="8.0sp" />
-
-                        <ImageView
-                            android:id="@+id/send_sms"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginRight="15.0dip"
-                            android:background="@drawable/add_brith_brith_duanxin" />
+                        
                     </LinearLayout>
 
                     <LinearLayout
