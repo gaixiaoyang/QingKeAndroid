@@ -1,15 +1,21 @@
 package com.bmob.im.demo.ui.fragment;
 
+import java.util.*;
+
 import android.annotation.*;
+import android.app.*;
 import android.os.*;
 import android.text.format.*;
 import android.view.*;
 import android.widget.*;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.AdapterView.OnItemLongClickListener;
+import cn.bmob.v3.*;
+import cn.bmob.v3.listener.*;
 
 import com.bmob.im.demo.R;
 import com.bmob.im.demo.adapter.*;
+import com.bmob.im.demo.bean.*;
 import com.bmob.im.demo.ui.*;
 import com.bmob.im.demo.util.*;
 import com.handmark.pulltorefresh.library.*;
@@ -33,7 +39,7 @@ public class ActivityFragment extends FragmentBase implements OnItemClickListene
 	
 	private PullToRefreshListView pullToRefreshListView = null;
 	
-	private NewListAdapter newAdapter = null;
+	private ActivityListAdapter newAdapter = null;
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -50,17 +56,51 @@ public class ActivityFragment extends FragmentBase implements OnItemClickListene
 	public void onActivityCreated(android.os.Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
 		//activity_view = LayoutInflater.from(this.getActivity()).inflate(R.layout.fragment_activity, null);
-		newAdapter = new NewListAdapter(this.getActivity(), NewsUtil.getSimulationNews(10),"activity");
-		pullToRefreshListView = (PullToRefreshListView) this.findViewById(R.id.list_activity);
 		initTopBarForOnlyTitle("周围的请客");
 		initPullToRefreshListView(pullToRefreshListView, newAdapter);
+		newAdapter = new ActivityListAdapter(this.getActivity(), getActivities(10),"activity");
+		pullToRefreshListView = (PullToRefreshListView) this.findViewById(R.id.list_activity);
 	};
 	
 	private void initPullToRefreshListView(PullToRefreshListView rtflv,
-			NewListAdapter adapter) {
+			ActivityListAdapter adapter) {
 		rtflv.setMode(Mode.PULL_FROM_START);
 		rtflv.setOnRefreshListener(new MyOnRefreshListener2(rtflv));
 		rtflv.setAdapter(adapter);
+	}
+	
+	private ArrayList<HashMap<String, String>> getActivities(int n){
+		final ProgressDialog progress = new ProgressDialog(this.getActivity());
+		progress.setMessage("正在寻找请客...");
+		progress.setCanceledOnTouchOutside(false);
+		progress.show();
+		final ArrayList<HashMap<String, String>> ret = new ArrayList<HashMap<String, String>>();
+		BmobQuery<Activitys> query = new BmobQuery<Activitys>();
+		query.findObjects(this.getActivity(), new FindListener<Activitys>() {
+		        @Override
+		        public void onSuccess(List<Activitys> object) {
+		        	for (int i = 0; i < object.size(); i++) {
+		        		HashMap<String, String> hm = new HashMap<String, String>();
+		        		if (i % 2 == 0) {
+		    				hm.put("uri",
+		    						"http://images.china.cn/attachement/jpg/site1000/20131029/001fd04cfc4813d9af0118.jpg");
+		    			} else {
+		    				hm.put("uri",
+		    						"http://photocdn.sohu.com/20131101/Img389373139.jpg");
+		    			}
+		        		hm.put("title", object.get(i).getTime() + " / " + object.get(i).getAddress());
+		    			hm.put("content", object.get(i).getContent());
+		    			hm.put("review", i + "跟帖");
+		        		ret.add(hm);
+					}
+		        	progress.dismiss();
+		        }
+		        @Override
+		        public void onError(int code, String msg) {
+		        	ShowLog(msg);
+		        }
+		});
+		return ret;
 	}
 
 	@Override
@@ -91,14 +131,12 @@ public class ActivityFragment extends FragmentBase implements OnItemClickListene
 
 			refreshView.getLoadingLayoutProxy().setLastUpdatedLabel(label);
 			new GetNewsTask(mPtflv).execute();
-
 		}
 
 		@Override
 		public void onPullUpToRefresh(PullToRefreshBase<ListView> refreshView) {
 			
 		}
-
 	}
 	
 	/**
@@ -132,7 +170,7 @@ public class ActivityFragment extends FragmentBase implements OnItemClickListene
 			super.onPostExecute(result);
 			switch (result) {
 			case HTTP_REQUEST_SUCCESS:
-				newAdapter.addNews(NewsUtil.getSimulationNews(10));
+				newAdapter.addNews(getActivities(10));
 				newAdapter.notifyDataSetChanged();
 				break;
 			case HTTP_REQUEST_ERROR:
@@ -142,7 +180,5 @@ public class ActivityFragment extends FragmentBase implements OnItemClickListene
 			}
 			mPtrlv.onRefreshComplete();
 		}
-
 	}
-
 }

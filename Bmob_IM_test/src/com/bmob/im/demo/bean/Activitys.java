@@ -2,8 +2,6 @@ package com.bmob.im.demo.bean;
 
 import cn.bmob.v3.*;
 
-import com.bmob.im.demo.config.*;
-
 public class Activitys extends BmobObject {
 
 	/**
@@ -18,9 +16,9 @@ public class Activitys extends BmobObject {
 	private String user_id;
 	private boolean isOpen;
 	private long timestamp;
-	
-	public Activitys(){
-		this.setTableName(Config.ACTIVITY_TABLE_NAME);
+
+	public Activitys() {
+		
 	}
 
 	public boolean isOpen() {

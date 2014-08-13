@@ -28,20 +28,20 @@ public class MyJoinActivity extends BaseActivity {
 	
 	private PullToRefreshListView pullToRefreshListView = null;
 	
-	private NewListAdapter newAdapter = null;
+	private ActivityListAdapter newAdapter = null;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_my_join);
-		newAdapter = new NewListAdapter(this, NewsUtil.getSimulationNews(10),"myjoin");
+		newAdapter = new ActivityListAdapter(this, NewsUtil.getSimulationNews(10),"myjoin");
 		pullToRefreshListView = (PullToRefreshListView) this.findViewById(R.id.list_activity);
 		initTopBarForLeft("我加入的请客");
 		initPullToRefreshListView(pullToRefreshListView, newAdapter);
 	}
 
 	private void initPullToRefreshListView(PullToRefreshListView rtflv,
-			NewListAdapter adapter) {
+			ActivityListAdapter adapter) {
 		rtflv.setMode(Mode.PULL_FROM_START);
 		rtflv.setOnRefreshListener(new MyOnRefreshListener2(rtflv));
 		rtflv.setAdapter(adapter);

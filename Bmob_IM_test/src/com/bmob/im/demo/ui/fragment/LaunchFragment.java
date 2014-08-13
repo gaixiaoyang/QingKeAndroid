@@ -11,12 +11,10 @@ import android.view.*;
 import android.view.View.OnClickListener;
 import android.widget.*;
 import cn.bmob.im.*;
-import cn.bmob.v3.*;
 import cn.bmob.v3.listener.*;
 
 import com.bmob.im.demo.*;
 import com.bmob.im.demo.bean.*;
-import com.bmob.im.demo.bean.Activitys;
 import com.bmob.im.demo.ui.*;
 
 /**
@@ -41,21 +39,6 @@ public class LaunchFragment extends FragmentBase implements OnClickListener {
 	private boolean isOpen = true;
 	private BmobUserManager userManager;
 	
-	private void testSavedMessage(){
-		BmobQuery<Activitys> bmobQuery = new BmobQuery<Activitys>();
-		bmobQuery.getObject(this.getActivity(), "65ef013be5", new GetListener<Activitys>() {
-		    @Override
-		    public void onSuccess(Activitys object) {
-		    	showSaveSuccessDialog(object.getAddress() + "\t" + object.getTime());
-		    }
-
-		    @Override
-		    public void onFailure(int code, String msg) {
-		    	showSaveSuccessDialog(msg);
-		    }
-		});
-	}
-
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		return inflater.inflate(R.layout.fragment_launch, container, false);
@@ -103,7 +86,6 @@ public class LaunchFragment extends FragmentBase implements OnClickListener {
 	}
 
 	private void saveData() {
-		testSavedMessage();
 		String friend_list = tv_name.getText().toString();
 		String time = tv_time.getText().toString();
 		String address = tv_address.getText().toString();
@@ -126,7 +108,6 @@ public class LaunchFragment extends FragmentBase implements OnClickListener {
 			public void onSuccess() {
 				progress.dismiss();
 				ShowToast("发布成功！");
-				showSaveSuccessDialog("发布成功！");
 				tv_name.setText("");
 				tv_time.setText("");
 				tv_address.setText("");
