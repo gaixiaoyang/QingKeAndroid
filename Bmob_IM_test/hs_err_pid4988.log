@@ -1,0 +1,85 @@
+#
+# An unexpected error has been detected by Java Runtime Environment:
+#
+#  Internal Error (classFileParser.cpp:2923), pid=4988, tid=2008
+#  Error: ShouldNotReachHere()
+#
+# Java VM: Java HotSpot(TM) Client VM (11.0-b11 mixed mode windows-x86)
+# If you would like to submit a bug report, please visit:
+#   http://java.sun.com/webapps/bugreport/crash.jsp
+#
+
+---------------  T H R E A D  ---------------
+
+Current thread (0x01629400):  JavaThread "Unknown thread" [_thread_in_vm, id=2008, stack(0x01470000,0x014c0000)]
+
+Stack: [0x01470000,0x014c0000]
+
+[error occurred during error reporting (printing native stack), id 0xc0000005]
+
+
+---------------  P R O C E S S  ---------------
+
+Java Threads: ( => current thread )
+
+Other Threads:
+
+=>0x01629400 (exited) JavaThread "Unknown thread" [_thread_in_vm, id=2008, stack(0x01470000,0x014c0000)]
+
+VM state:not at safepoint (not fully initialized)
+
+VM Mutex/Monitor currently owned by a thread: None
+
+Dynamic libraries:
+0x00400000 - 0x00424000 	E:\Java\jdk1.6.0_10\bin\javaw.exe
+0x775b0000 - 0x776ec000 	C:\Windows\SYSTEM32\ntdll.dll
+0x76fe0000 - 0x770b4000 	C:\Windows\system32\kernel32.dll
+0x757d0000 - 0x7581b000 	C:\Windows\system32\KERNELBASE.dll
+0x76890000 - 0x76930000 	C:\Windows\system32\ADVAPI32.dll
+0x77500000 - 0x775ac000 	C:\Windows\system32\msvcrt.dll
+0x77740000 - 0x77759000 	C:\Windows\SYSTEM32\sechost.dll
+0x76d30000 - 0x76dd1000 	C:\Windows\system32\RPCRT4.dll
+0x75b00000 - 0x75bc9000 	C:\Windows\system32\USER32.dll
+0x776f0000 - 0x7773e000 	C:\Windows\system32\GDI32.dll
+0x75bd0000 - 0x75bda000 	C:\Windows\system32\LPK.dll
+0x76b80000 - 0x76c1d000 	C:\Windows\system32\USP10.dll
+0x76830000 - 0x7684f000 	C:\Windows\system32\IMM32.DLL
+0x77290000 - 0x7735c000 	C:\Windows\system32\MSCTF.dll
+0x7c340000 - 0x7c396000 	E:\Java\jdk1.6.0_10\jre\bin\msvcr71.dll
+0x6d8a0000 - 0x6daf6000 	E:\Java\jdk1.6.0_10\jre\bin\client\jvm.dll
+0x736f0000 - 0x73722000 	C:\Windows\system32\WINMM.dll
+0x75600000 - 0x7564b000 	C:\Windows\system32\apphelp.dll
+0x6d340000 - 0x6d348000 	E:\Java\jdk1.6.0_10\jre\bin\hpi.dll
+0x76930000 - 0x76935000 	C:\Windows\system32\PSAPI.DLL
+0x6d850000 - 0x6d85c000 	E:\Java\jdk1.6.0_10\jre\bin\verify.dll
+0x6d3e0000 - 0x6d3ff000 	E:\Java\jdk1.6.0_10\jre\bin\java.dll
+0x6d890000 - 0x6d89f000 	E:\Java\jdk1.6.0_10\jre\bin\zip.dll
+
+VM Arguments:
+jvm_args: -Dfile.encoding=GBK -Xbootclasspath:E:\framework1\android\android-sdk-windows\platforms\android-16\android.jar 
+java_command: com.bmob.im.demo.ui.fragment.LaunchFragment
+Launcher Type: SUN_STANDARD
+
+Environment Variables:
+JAVA_HOME=E:\Java\jdk7
+CLASSPATH=.;E:\Java\jdk7\lib\tools.jar;E:\Java\jdk7\lib\dt.jar;
+PATH=E:/Java/jdk7/bin/../jre/bin/client;E:/Java/jdk7/bin/../jre/bin;E:/Java/jdk7/bin/../jre/lib/i386;E:\Java\jdk7\bin;C:\Windows\system32;C:\Windows;C:\Windows\System32\Wbem;C:\Windows\System32\WindowsPowerShell\v1.0\;C:\Program Files\Intel\OpenCL SDK\2.0\bin\x86;C:\Program Files\VanDyke Software\SecureFX\;E:\cygwin\bin;E:\cygwin\usr\sbin;C:\Program Files\EmEditor;E:\framework\maven\apache-maven-3.0.5\bin;E:\Program Files\TortoiseGit\bin;E:\vagrant\vagrant\bin;E:\framework\maven\apache-maven-3.0.5\bin;C:\Program Files\TortoiseSVN\bin;E:\Program Files\nodejs\;E:\framework1\curl\curl-7.17.0;E:\framework\ant\apache-ant-1.9.4\bin;E:\Program Files\UltraEdit\;E:\Program Files\IDM Computer Solutions\UltraEdit\;C:\Program Files\DBank\ClickUp;C:\Program Files\DBank\ClickUp;E:\cygwin\bin;E:\cygwin\usr\sbin;E:\framework\maven\apache-maven-3.0.5\bin;C:\Users\AI\AppData\Roaming\npm;E:\eclipse_JavaEE\eclipse;
+USERNAME=AI
+OS=Windows_NT
+PROCESSOR_IDENTIFIER=x86 Family 6 Model 42 Stepping 7, GenuineIntel
+
+
+
+---------------  S Y S T E M  ---------------
+
+OS: Windows NT 6.1 Build 7600 
+
+CPU:total 4 (8 cores per cpu, 2 threads per core) family 6 model 10 stepping 7, cmov, cx8, fxsr, mmx, sse, sse2, sse3, ssse3, ht
+
+Memory: 4k page, physical 2097151k(248212k free), swap 4194303k(1732464k free)
+
+vm_info: Java HotSpot(TM) Client VM (11.0-b11) for windows-x86 JRE (1.6.0_10-beta-b14), built on Mar 14 2008 14:00:49 by "java_re" with MS VC++ 7.1
+
+time: Wed Aug 13 16:17:19 2014
+elapsed time: 0 seconds
+

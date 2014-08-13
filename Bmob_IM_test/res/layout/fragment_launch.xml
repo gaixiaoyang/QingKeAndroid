@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
+    android:layout_width="wrap_content"
     android:layout_height="match_parent"
     android:background="@color/theme_bg_color"
     android:orientation="vertical" >
@@ -104,7 +104,7 @@
                             android:orientation="horizontal" >
 
                             <RadioButton
-                                android:id="@+id/gender_boy"
+                                android:id="@+id/is_agree"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:button="@drawable/add_brith_xingbie"
@@ -115,7 +115,7 @@
                                 android:textSize="16.0sp" />
 
                             <RadioButton
-                                android:id="@+id/gender_girl"
+                                android:id="@+id/is_disagree"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginLeft="20.0dip"
@@ -195,24 +195,22 @@
                                 android:background="@drawable/redline" />
 
                             <EditText
-                                android:id="@+id/tv_phone"
+                                 android:id="@+id/tv_address"
                                 android:layout_width="fill_parent"
                                 android:layout_height="fill_parent"
                                 android:layout_weight="1.0"
                                 android:background="@null"
                                 android:gravity="center_vertical"
                                 android:hint="点击设置地点"
-                                android:numeric="integer"
                                 android:singleLine="true"
                                 android:textColor="@color/dark"
                                 android:textColorHint="@color/hintColor"
                                 android:textSize="16.0sp" />
-
                         </LinearLayout>
 
                         <LinearLayout
                             android:layout_width="fill_parent"
-                            android:layout_height="wrap_content"
+                            android:layout_height="100dip"
                             android:layout_marginTop="5.0dip"
                             android:background="@drawable/regist_bg_circle"
                             android:gravity="center_vertical"
@@ -223,7 +221,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginLeft="10.0dip"
-                                android:text="请客项目 "
+                                android:text="说明 "
                                 android:textColor="@color/TextRed"
                                 android:textSize="16.0sp" />
 
@@ -239,9 +237,9 @@
                                 android:layout_height="fill_parent"
                                 android:layout_weight="1.0"
                                 android:background="@null"
-                                android:gravity="center_vertical"
-                                android:hint="如预订餐厅，购买电影票"
                                 android:singleLine="true"
+                                android:inputType="textMultiLine"
+                                android:gravity="left"
                                 android:textColor="@color/dark"
                                 android:textColorHint="@color/hintColor"
                                 android:textSize="16.0sp" />
@@ -252,13 +250,8 @@
 
             </LinearLayout>
 
-            <ImageView
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:background="@drawable/bgedge" />
-
             <Button
-                android:id="@+id/btn_save"
+                android:id="@+id/btn_launch"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10.0dip"

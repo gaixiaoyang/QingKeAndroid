@@ -124,7 +124,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginLeft="10.0dip"
-                                android:text="内容 "
+                                android:text="说明 "
                                 android:textColor="@color/TextRed"
                                 android:textSize="16.0sp" />
 
@@ -149,11 +149,6 @@
 
             </LinearLayout>
 
-            <ImageView
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:background="@drawable/bgedge" />
-            
             <Button
                 android:id="@+id/btn_check"
                 android:layout_width="wrap_content"

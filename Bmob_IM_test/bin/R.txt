@@ -371,8 +371,6 @@ int id fragment_container 0x7f06002e
 int id fram 0x7f06009f
 int id frame_new 0x7f06007f
 int id gender 0x7f060059
-int id gender_boy 0x7f06005a
-int id gender_girl 0x7f06005b
 int id gridview 0x7f060009
 int id header_htv_subtitle 0x7f06004f
 int id header_ib_imagebutton 0x7f060052
@@ -381,6 +379,8 @@ int id header_layout_leftview_container 0x7f06004d
 int id header_layout_middleview_container 0x7f06004e
 int id header_layout_rightview_container 0x7f060050
 int id img_friend_avatar 0x7f060087
+int id is_agree 0x7f06005a
+int id is_disagree 0x7f06005b
 int id ivPreview 0x7f06009b
 int id iv_arraw 0x7f060036
 int id iv_avatar 0x7f060089
@@ -467,6 +467,7 @@ int id title_red_line 0x7f0600af
 int id tvContent 0x7f06009d
 int id tvReview 0x7f06009e
 int id tvTitle 0x7f06009c
+int id tv_address 0x7f06005d
 int id tv_camera 0x7f060070
 int id tv_content 0x7f06005e
 int id tv_distance 0x7f060099
@@ -476,7 +477,6 @@ int id tv_logintime 0x7f06009a
 int id tv_message 0x7f06008d
 int id tv_name 0x7f060058
 int id tv_new_name 0x7f060081
-int id tv_phone 0x7f06005d
 int id tv_picture 0x7f06006f
 int id tv_recent_msg 0x7f060095
 int id tv_recent_name 0x7f060094

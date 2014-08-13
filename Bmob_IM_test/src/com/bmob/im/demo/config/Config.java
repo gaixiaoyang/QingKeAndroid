@@ -8,5 +8,7 @@ package com.bmob.im.demo.config;
   */
 public class Config {
 
-	public static String applicationId = "2f09af90d1db9e836b64306d0a5f9485";
+	public static String applicationId = "05643bb2860f30eca61bd658e6a44bb0";
+	
+	public static String ACTIVITY_TABLE_NAME = "table_activity";
 }

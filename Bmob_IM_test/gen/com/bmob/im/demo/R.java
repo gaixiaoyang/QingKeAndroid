@@ -519,8 +519,6 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
         public static final int fram=0x7f06009f;
         public static final int frame_new=0x7f06007f;
         public static final int gender=0x7f060059;
-        public static final int gender_boy=0x7f06005a;
-        public static final int gender_girl=0x7f06005b;
         public static final int gridview=0x7f060009;
         public static final int header_htv_subtitle=0x7f06004f;
         public static final int header_ib_imagebutton=0x7f060052;
@@ -529,6 +527,8 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
         public static final int header_layout_middleview_container=0x7f06004e;
         public static final int header_layout_rightview_container=0x7f060050;
         public static final int img_friend_avatar=0x7f060087;
+        public static final int is_agree=0x7f06005a;
+        public static final int is_disagree=0x7f06005b;
         public static final int ivPreview=0x7f06009b;
         public static final int iv_arraw=0x7f060036;
         public static final int iv_avatar=0x7f060089;
@@ -615,6 +615,7 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
         public static final int tvContent=0x7f06009d;
         public static final int tvReview=0x7f06009e;
         public static final int tvTitle=0x7f06009c;
+        public static final int tv_address=0x7f06005d;
         public static final int tv_camera=0x7f060070;
         public static final int tv_content=0x7f06005e;
         public static final int tv_distance=0x7f060099;
@@ -624,7 +625,6 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
         public static final int tv_message=0x7f06008d;
         public static final int tv_name=0x7f060058;
         public static final int tv_new_name=0x7f060081;
-        public static final int tv_phone=0x7f06005d;
         public static final int tv_picture=0x7f06006f;
         public static final int tv_recent_msg=0x7f060095;
         public static final int tv_recent_name=0x7f060094;
