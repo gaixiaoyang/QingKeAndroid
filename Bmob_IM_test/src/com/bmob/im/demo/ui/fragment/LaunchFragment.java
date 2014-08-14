@@ -11,6 +11,7 @@ import android.view.*;
 import android.view.View.OnClickListener;
 import android.widget.*;
 import cn.bmob.im.*;
+import cn.bmob.v3.*;
 import cn.bmob.v3.listener.*;
 
 import com.bmob.im.demo.*;
@@ -35,6 +36,7 @@ public class LaunchFragment extends FragmentBase implements OnClickListener {
 	private Button btn_launch;
 	private String sex = "female";
 	private BmobUserManager userManager;
+	private boolean control = true;
 	
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -77,56 +79,81 @@ public class LaunchFragment extends FragmentBase implements OnClickListener {
 	}
 
 	private void saveData() {
-		String time = tv_time.getText().toString();
-		String address = tv_address.getText().toString();
-		String content = tv_content.getText().toString();
-		if(time == null || time.trim().equals("")){
-			showSaveSuccessDialog("请选择时间 ...");
-			return;
-		}
-		if(address == null || address.trim().equals("")){
-			showSaveSuccessDialog("请输入地点 ...");
-			return;
-		}
-		if(content == null || content.trim().equals("")){
-			showSaveSuccessDialog("请填写说明 ...");
-			return;
-		}
-		User user = userManager.getCurrentUser(User.class);
-		final ProgressDialog progress = new ProgressDialog(this.getActivity());
-		progress.setMessage("正在发布...");
-		progress.setCanceledOnTouchOutside(false);
-		progress.show();
-		final Activitys activity = new Activitys();
-		activity.setSex(sex);
-		activity.setAddress(address);
-		activity.setContent(content);
-		activity.setTime(time);
-		activity.setTimestamp(System.currentTimeMillis());
-		activity.setUser_id(user.getObjectId());
-		String avatar = user.getAvatar();
-		if(avatar == null || avatar.equals("")){
-			activity.setAvatar("");
-		}else{
-			activity.setAvatar(avatar);
-		}
-		activity.save(this.getActivity(), new SaveListener() {
-			@Override
-			public void onSuccess() {
-				progress.dismiss();
-				ShowToast("发布成功！");
-				tv_time.setText("");
-				tv_address.setText("");
-				tv_content.setText("");
+		if(control){
+			control = false;
+			String time = tv_time.getText().toString();
+			String address = tv_address.getText().toString();
+			String content = tv_content.getText().toString();
+			if(time == null || time.trim().equals("")){
+				showSaveSuccessDialog("请选择时间 ...");
+				return;
 			}
-
-			@Override
-			public void onFailure(int arg0, String arg1) {
-				progress.dismiss();
-				ShowToast("发布失败,请检查网络！\n" + arg1);
-				ShowLog(arg1);
+			if(address == null || address.trim().equals("")){
+				showSaveSuccessDialog("请输入地点 ...");
+				return;
 			}
-		});
+			if(content == null || content.trim().equals("")){
+				showSaveSuccessDialog("请填写说明 ...");
+				return;
+			}
+			User user = userManager.getCurrentUser(User.class);
+			final ProgressDialog progress = new ProgressDialog(this.getActivity());
+			progress.setMessage("正在发布...");
+			progress.setCanceledOnTouchOutside(false);
+			progress.show();
+			final Activitys activity = new Activitys();
+			activity.setSex(sex);
+			activity.setAddress(address);
+			activity.setContent(content);
+			activity.setTime(time);
+			activity.setTimestamp(System.currentTimeMillis());
+			activity.setUser_id(user.getObjectId());
+			String avatar = user.getAvatar();
+			if(avatar == null || avatar.equals("")){
+				activity.setAvatar("");
+			}else{
+				activity.setAvatar(avatar);
+			}
+			BmobQuery<Activitys> query = new BmobQuery<Activitys>();
+			long threeDaysAgoMillis = System.currentTimeMillis() - 60 * 5 * 1000;
+			query.addWhereGreaterThanOrEqualTo("timestamp", threeDaysAgoMillis);
+			query.order("-timestamp");
+			query.addWhereEqualTo("user_id", user.getObjectId());
+			query.findObjects(this.getActivity(), new FindListener<Activitys>() {
+				@Override
+				public void onSuccess(List<Activitys> object) {
+					if(object.size() > 0){
+						showSaveSuccessDialog("请不要发的太快，5分钟内只能发一次！");
+						progress.dismiss();
+					}else{
+						activity.save(LaunchFragment.this.getActivity(), new SaveListener() {
+							@Override
+							public void onSuccess() {
+								ShowToast("发布成功！");
+								progress.dismiss();
+								tv_time.setText("");
+								tv_address.setText("");
+								tv_content.setText("");
+							}
+							
+							@Override
+							public void onFailure(int arg0, String arg1) {
+								progress.dismiss();
+								ShowToast("发布失败,请检查网络！\n" + arg1);
+								ShowLog(arg1);
+							}
+						});
+					}
+				}
+				
+				@Override
+				public void onError(int code, String msg) {
+					ShowLog(msg);
+					progress.dismiss();
+				}
+			});
+		}
+		control = true;
 	}
 
 	protected void showSaveSuccessDialog(String message) {
