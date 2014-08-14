@@ -2,13 +2,12 @@
     android:id="@+id/ivLayout"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="#ffffffff"
-    android:padding="@dimen/padding" >
+    android:background="#ffffffff" >
 	
     <ImageView
         android:id="@+id/ivPreview"
-        android:layout_width="60.0dip"
-        android:layout_height="60.0dip"
+        android:layout_width="70.0dip"
+        android:layout_height="70.0dip"
         android:layout_alignParentLeft="true"
         android:src="@drawable/head" />
     
@@ -27,7 +26,6 @@
         android:id="@+id/tvContent"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="3.0dip"
         android:maxLines="2"
         android:layout_alignLeft="@id/tvTime"
         android:layout_below="@id/tvTime"

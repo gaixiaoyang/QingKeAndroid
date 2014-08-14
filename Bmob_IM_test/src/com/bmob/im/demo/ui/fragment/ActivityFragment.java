@@ -18,6 +18,7 @@ import cn.bmob.v3.listener.*;
 import com.bmob.im.demo.R;
 import com.bmob.im.demo.adapter.*;
 import com.bmob.im.demo.bean.*;
+import com.bmob.im.demo.config.*;
 import com.bmob.im.demo.ui.*;
 import com.bmob.im.demo.util.*;
 import com.handmark.pulltorefresh.library.*;
@@ -36,12 +37,14 @@ import com.handmark.pulltorefresh.library.PullToRefreshBase.OnRefreshListener2;
 public class ActivityFragment extends FragmentBase implements OnItemClickListener, OnItemLongClickListener {
 
 	public static final int HTTP_REQUEST_SUCCESS = -1;
-	
+
 	public static final int HTTP_REQUEST_ERROR = 0;
 	
 	private PullToRefreshListView pullToRefreshListView = null;
-	
+
 	private ActivityListAdapter newAdapter = null;
+	
+	private long currentTimeMillis = 0;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -49,61 +52,68 @@ public class ActivityFragment extends FragmentBase implements OnItemClickListene
 	}
 
 	@Override
-	public View onCreateView(LayoutInflater inflater, ViewGroup container,
-			Bundle savedInstanceState) {
+	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		return inflater.inflate(R.layout.fragment_activity, container, false);
 	}
-	
+
 	@Override
 	public void onActivityCreated(android.os.Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
 		initTopBarForOnlyTitle("他/她们正在请客");
-		ArrayList<HashMap<String, String>> lists = getActivities(10);
-		newAdapter = new ActivityListAdapter(this.getActivity(), lists,"activity");
-		pullToRefreshListView = (PullToRefreshListView) this.findViewById(R.id.list_activity);
-		initPullToRefreshListView(pullToRefreshListView, newAdapter);
+		initData();
 	};
-	
-	private void initPullToRefreshListView(PullToRefreshListView rtflv,
-			ActivityListAdapter adapter) {
+
+	private void initPullToRefreshListView(PullToRefreshListView rtflv, ActivityListAdapter adapter) {
 		rtflv.setMode(Mode.PULL_FROM_START);
 		rtflv.setOnRefreshListener(new MyOnRefreshListener2(rtflv));
 		rtflv.setAdapter(adapter);
 	}
-	
-	private ArrayList<HashMap<String, String>> getActivities(int n){
+
+	private void initData() {
 		final ProgressDialog progress = new ProgressDialog(this.getActivity());
-			progress.setMessage("正在寻找请客...");
-			progress.setCanceledOnTouchOutside(false);
-			progress.show();
-		final ArrayList<HashMap<String, String>> ret = new ArrayList<HashMap<String, String>>();
+		progress.setMessage("正在寻找请客...");
+		progress.setCanceledOnTouchOutside(false);
+		progress.show();
+
 		BmobQuery<Activitys> query = new BmobQuery<Activitys>();
+		long threeDaysAgoMillis = System.currentTimeMillis() - 24 * 60 * 60 * Config.overDays * 1000;
+		query.addWhereGreaterThanOrEqualTo("timestamp", threeDaysAgoMillis);
+		query.order("-timestamp");
 		query.findObjects(this.getActivity(), new FindListener<Activitys>() {
-		        @Override
-		        public void onSuccess(List<Activitys> object) {
-		        	for (int i = 0; i < object.size(); i++) {
-		        		HashMap<String, String> hm = new HashMap<String, String>();
-		    			hm.put("uri",object.get(i).getAvatar());
-		        		hm.put("time", object.get(i).getTime() + "  " + object.get(i).getAddress());
-		    			hm.put("content", object.get(i).getContent());
-		    			String sex = object.get(i).getSex();
-		    			if(sex.equals("male")){
-		    				hm.put("review", "邀请对象：男士");
-		    			}else if(sex.equals("female")){
-		    				hm.put("review", "邀请对象：女士");
-		    			}
-		        		ret.add(hm);
+			@Override
+			public void onSuccess(List<Activitys> object) {
+				ArrayList<HashMap<String, String>> ret = new ArrayList<HashMap<String, String>>();
+				for (int i = 0; i < object.size(); i++) {
+					HashMap<String, String> hm = new HashMap<String, String>();
+					hm.put("uri", object.get(i).getAvatar());
+					hm.put("time", object.get(i).getTime() + "  " + object.get(i).getAddress());
+					hm.put("content", object.get(i).getContent());
+					String sex = object.get(i).getSex();
+					if (sex.equals("male")) {
+						hm.put("review", "邀请对象：男士");
+					} else if (sex.equals("female")) {
+						hm.put("review", "邀请对象：女士");
 					}
-		        	progress.dismiss();
-		        }
-		        @Override
-		        public void onError(int code, String msg) {
-		        	progress.dismiss();
-		        	Toast.makeText(ActivityFragment.this.getActivity(), "请检查网络", Toast.LENGTH_SHORT).show();
-		        	ShowLog(msg);
-		        }
+					ret.add(hm);
+				}
+				progress.dismiss();
+				currentTimeMillis = System.currentTimeMillis();
+				newAdapter = new ActivityListAdapter(ActivityFragment.this.getActivity(), ret, "activity");
+				pullToRefreshListView = (PullToRefreshListView) ActivityFragment.this.findViewById(R.id.list_activity);
+				initPullToRefreshListView(pullToRefreshListView, newAdapter);
+			}
+
+			@Override
+			public void onError(int code, String msg) {
+				progress.dismiss();
+				newAdapter = new ActivityListAdapter(ActivityFragment.this.getActivity(),
+						new ArrayList<HashMap<String, String>>(), "activity");
+				pullToRefreshListView = (PullToRefreshListView) ActivityFragment.this.findViewById(R.id.list_activity);
+				initPullToRefreshListView(pullToRefreshListView, newAdapter);
+				Toast.makeText(ActivityFragment.this.getActivity(), "请检查网络", Toast.LENGTH_SHORT).show();
+				ShowLog(msg);
+			}
 		});
-		return ret;
 	}
 
 	@Override
@@ -115,7 +125,7 @@ public class ActivityFragment extends FragmentBase implements OnItemClickListene
 	public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
 	}
-	
+
 	protected void showDialog(String message) {
 		AlertDialog.Builder builder = new Builder(this.getActivity());
 		builder.setMessage(message);
@@ -127,7 +137,7 @@ public class ActivityFragment extends FragmentBase implements OnItemClickListene
 		});
 		builder.create().show();
 	}
-	
+
 	class MyOnRefreshListener2 implements OnRefreshListener2<ListView> {
 
 		private final PullToRefreshListView mPtflv;
@@ -139,10 +149,8 @@ public class ActivityFragment extends FragmentBase implements OnItemClickListene
 		@Override
 		public void onPullDownToRefresh(PullToRefreshBase<ListView> refreshView) {
 			// 下拉刷新
-			String label = DateUtils.formatDateTime(ActivityFragment.this.getActivity(),
-					System.currentTimeMillis(), DateUtils.FORMAT_SHOW_TIME
-							| DateUtils.FORMAT_SHOW_DATE
-							| DateUtils.FORMAT_ABBREV_ALL);
+			String label = DateUtils.formatDateTime(ActivityFragment.this.getActivity(), System.currentTimeMillis(),
+					DateUtils.FORMAT_SHOW_TIME | DateUtils.FORMAT_SHOW_DATE | DateUtils.FORMAT_ABBREV_ALL);
 
 			refreshView.getLoadingLayoutProxy().setLastUpdatedLabel(label);
 			new GetNewsTask(mPtflv).execute();
@@ -150,10 +158,10 @@ public class ActivityFragment extends FragmentBase implements OnItemClickListene
 
 		@Override
 		public void onPullUpToRefresh(PullToRefreshBase<ListView> refreshView) {
-			
+
 		}
 	}
-	
+
 	/**
 	 * 请求网络获得新闻信息
 	 * 
@@ -179,14 +187,54 @@ public class ActivityFragment extends FragmentBase implements OnItemClickListene
 		protected void onPostExecute(Integer result) {
 			super.onPostExecute(result);
 			switch (result) {
-				case HTTP_REQUEST_SUCCESS:
-					ArrayList<HashMap<String, String>> lists = getActivities(10);
-					newAdapter.addNews(lists);
-					newAdapter.notifyDataSetChanged();
-					break;
-				case HTTP_REQUEST_ERROR:
-					Toast.makeText(ActivityFragment.this.getActivity(), "请检查网络", Toast.LENGTH_SHORT).show();
-					break;
+			case HTTP_REQUEST_SUCCESS:
+				final ProgressDialog progress = new ProgressDialog(ActivityFragment.this.getActivity());
+				progress.setMessage("正在寻找请客...");
+				progress.setCanceledOnTouchOutside(false);
+				progress.show();
+
+				BmobQuery<Activitys> query = new BmobQuery<Activitys>();
+				if(currentTimeMillis == 0){
+					long threeDaysAgoMillis = System.currentTimeMillis() - 24 * 60 * 60 * Config.overDays * 1000;
+					query.addWhereGreaterThanOrEqualTo("timestamp", threeDaysAgoMillis);
+				}else{
+					query.addWhereGreaterThanOrEqualTo("timestamp", currentTimeMillis);
+				}
+				query.order("-timestamp");
+				query.findObjects(ActivityFragment.this.getActivity(), new FindListener<Activitys>() {
+					@Override
+					public void onSuccess(List<Activitys> object) {
+						ArrayList<HashMap<String, String>> ret = new ArrayList<HashMap<String, String>>();
+						for (int i = 0; i < object.size(); i++) {
+							HashMap<String, String> hm = new HashMap<String, String>();
+							hm.put("uri", object.get(i).getAvatar());
+							hm.put("time", object.get(i).getTime() + "  " + object.get(i).getAddress());
+							hm.put("content", object.get(i).getContent());
+							String sex = object.get(i).getSex();
+							if (sex.equals("male")) {
+								hm.put("review", "邀请对象：男士");
+							} else if (sex.equals("female")) {
+								hm.put("review", "邀请对象：女士");
+							}
+							ret.add(hm);
+						}
+						progress.dismiss();
+						currentTimeMillis = System.currentTimeMillis();
+						newAdapter.addNews(ret);
+						newAdapter.notifyDataSetChanged();
+					}
+
+					@Override
+					public void onError(int code, String msg) {
+						progress.dismiss();
+						Toast.makeText(ActivityFragment.this.getActivity(), "请检查网络", Toast.LENGTH_SHORT).show();
+						ShowLog(msg);
+					}
+				});
+				break;
+			case HTTP_REQUEST_ERROR:
+				Toast.makeText(ActivityFragment.this.getActivity(), "请检查网络", Toast.LENGTH_SHORT).show();
+				break;
 			}
 			mPtrlv.onRefreshComplete();
 		}

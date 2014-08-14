@@ -100,9 +100,12 @@ public class ActivityListAdapter extends BaseAdapter {
 	}
 	
 	public void addNews(List<HashMap<String, String>> addNews) {
+		Collections.reverse(news);
+		Collections.reverse(addNews);
 		for(HashMap<String, String> hm:addNews) {
 			news.add(hm);
 		}
+		Collections.reverse(news);
 	}
 
 }

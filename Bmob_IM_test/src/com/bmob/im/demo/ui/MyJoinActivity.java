@@ -28,13 +28,13 @@ public class MyJoinActivity extends BaseActivity {
 	
 	private PullToRefreshListView pullToRefreshListView = null;
 	
-	private ActivityListAdapter newAdapter = null;
+	private final ActivityListAdapter newAdapter = null;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_my_join);
-		newAdapter = new ActivityListAdapter(this, NewsUtil.getSimulationNews(10),"myjoin");
+		//newAdapter = new ActivityListAdapter(this, NewsUtil.getSimulationNews(10),"myjoin");
 		pullToRefreshListView = (PullToRefreshListView) this.findViewById(R.id.list_activity);
 		initTopBarForLeft("我加入的请客");
 		initPullToRefreshListView(pullToRefreshListView, newAdapter);
@@ -106,8 +106,8 @@ public class MyJoinActivity extends BaseActivity {
 			super.onPostExecute(result);
 			switch (result) {
 			case HTTP_REQUEST_SUCCESS:
-				newAdapter.addNews(NewsUtil.getSimulationNews(10));
-				newAdapter.notifyDataSetChanged();
+				//newAdapter.addNews(NewsUtil.getSimulationNews(10));
+				//newAdapter.notifyDataSetChanged();
 				break;
 			case HTTP_REQUEST_ERROR:
 				Toast.makeText(MyJoinActivity.this, "请检查网络", Toast.LENGTH_SHORT)

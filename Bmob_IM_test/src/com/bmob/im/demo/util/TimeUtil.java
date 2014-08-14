@@ -1,10 +1,9 @@
 package com.bmob.im.demo.util;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.text.*;
+import java.util.*;
 
-import android.annotation.SuppressLint;
+import android.annotation.*;
 
 @SuppressLint("SimpleDateFormat")
 public class TimeUtil {
@@ -39,7 +38,7 @@ public class TimeUtil {
 		long timeGap = (currentTime - timestamp) / 1000;// 与现在时间相差秒数
 		System.out.println("timeGap: " + timeGap);
 		String timeStr = null;
-		if (timeGap > YEAR) {
+		if (timeGap > DAY) {
 			timeStr = timeGap / YEAR + "年前";
 		} else if (timeGap > MONTH) {
 			timeStr = timeGap / MONTH + "个月前";
@@ -53,6 +52,22 @@ public class TimeUtil {
 			timeStr = "刚刚";
 		}
 		return timeStr;
+	}
+	
+	/**
+	 * 根据时间戳获取超过n天时间
+	 * 
+	 * @param timestamp
+	 *            时间戳 单位为毫秒
+	 * @return
+	 */
+	public static boolean isOverDays(long timestamp,int n) {
+		long currentTime = System.currentTimeMillis();
+		long timeGap = (currentTime - timestamp) / 1000;// 与现在时间相差秒数
+		if(timeGap > (DAY * n)) {
+			return true;
+		} 
+		return false;
 	}
 
 	/**

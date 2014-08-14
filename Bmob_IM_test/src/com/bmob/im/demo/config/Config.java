@@ -9,4 +9,6 @@ package com.bmob.im.demo.config;
 public class Config {
 
 	public static String applicationId = "05643bb2860f30eca61bd658e6a44bb0";
+	
+	public static final int overDays = 3;
 }

@@ -26,16 +26,16 @@ public class MyLaunchActivity extends BaseActivity {
 	
 	public static final int HTTP_REQUEST_ERROR = 0;
 	
-	private PullToRefreshListView pullToRefreshListView = null;
+	private final PullToRefreshListView pullToRefreshListView = null;
 	
-	private ActivityListAdapter newAdapter = null;
+	private final ActivityListAdapter newAdapter = null;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_my_launch);
-		newAdapter = new ActivityListAdapter(this, NewsUtil.getSimulationNews(10),"mylaunch");
-		pullToRefreshListView = (PullToRefreshListView) this.findViewById(R.id.list_activity);
+		//newAdapter = new ActivityListAdapter(this, NewsUtil.getSimulationNews(10),"mylaunch");
+		//pullToRefreshListView = (PullToRefreshListView) this.findViewById(R.id.list_activity);
 		initTopBarForLeft("我发起的请客");
 		initPullToRefreshListView(pullToRefreshListView, newAdapter);
 	}
@@ -106,7 +106,7 @@ public class MyLaunchActivity extends BaseActivity {
 			super.onPostExecute(result);
 			switch (result) {
 			case HTTP_REQUEST_SUCCESS:
-				newAdapter.addNews(NewsUtil.getSimulationNews(10));
+				//newAdapter.addNews(NewsUtil.getSimulationNews(10));
 				newAdapter.notifyDataSetChanged();
 				break;
 			case HTTP_REQUEST_ERROR:
