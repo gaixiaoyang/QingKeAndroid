@@ -58,7 +58,8 @@ public class ActivityFragment extends FragmentBase implements OnItemClickListene
 	public void onActivityCreated(android.os.Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
 		initTopBarForOnlyTitle("他/她们正在请客");
-		newAdapter = new ActivityListAdapter(this.getActivity(), getActivities(10,true),"activity");
+		ArrayList<HashMap<String, String>> lists = getActivities(10);
+		newAdapter = new ActivityListAdapter(this.getActivity(), lists,"activity");
 		pullToRefreshListView = (PullToRefreshListView) this.findViewById(R.id.list_activity);
 		initPullToRefreshListView(pullToRefreshListView, newAdapter);
 	};
@@ -70,13 +71,11 @@ public class ActivityFragment extends FragmentBase implements OnItemClickListene
 		rtflv.setAdapter(adapter);
 	}
 	
-	private ArrayList<HashMap<String, String>> getActivities(int n,final boolean fromInit){
+	private ArrayList<HashMap<String, String>> getActivities(int n){
 		final ProgressDialog progress = new ProgressDialog(this.getActivity());
-		if(fromInit){
 			progress.setMessage("正在寻找请客...");
 			progress.setCanceledOnTouchOutside(false);
 			progress.show();
-		}
 		final ArrayList<HashMap<String, String>> ret = new ArrayList<HashMap<String, String>>();
 		BmobQuery<Activitys> query = new BmobQuery<Activitys>();
 		query.findObjects(this.getActivity(), new FindListener<Activitys>() {
@@ -95,15 +94,11 @@ public class ActivityFragment extends FragmentBase implements OnItemClickListene
 		    			}
 		        		ret.add(hm);
 					}
-		        	if(fromInit){
-		        		progress.dismiss();
-		        	}
+		        	progress.dismiss();
 		        }
 		        @Override
 		        public void onError(int code, String msg) {
-		        	if(fromInit){
-		        		progress.dismiss();
-		        	}
+		        	progress.dismiss();
 		        	Toast.makeText(ActivityFragment.this.getActivity(), "请检查网络", Toast.LENGTH_SHORT).show();
 		        	ShowLog(msg);
 		        }
@@ -185,7 +180,8 @@ public class ActivityFragment extends FragmentBase implements OnItemClickListene
 			super.onPostExecute(result);
 			switch (result) {
 				case HTTP_REQUEST_SUCCESS:
-					newAdapter.addNews(getActivities(10,false));
+					ArrayList<HashMap<String, String>> lists = getActivities(10);
+					newAdapter.addNews(lists);
 					newAdapter.notifyDataSetChanged();
 					break;
 				case HTTP_REQUEST_ERROR:
