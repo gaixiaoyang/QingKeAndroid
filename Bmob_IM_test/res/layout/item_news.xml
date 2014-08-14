@@ -1,4 +1,5 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/ivLayout"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="#ffffffff"
@@ -6,15 +7,17 @@
 	
     <ImageView
         android:id="@+id/ivPreview"
-        android:layout_width="80dp"
-        android:layout_height="60dp"
-        android:layout_marginRight="10dp" />
+        android:layout_width="60.0dip"
+        android:layout_height="60.0dip"
+        android:layout_alignParentLeft="true"
+        android:src="@drawable/head" />
     
     <TextView
-        android:id="@+id/tvTitle"
+        android:id="@+id/tvTime"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:singleLine="true"
+        android:maxLines="1"
         android:layout_alignTop="@id/ivPreview"
         android:layout_toRightOf="@id/ivPreview"
         android:textSize="16sp"
@@ -24,9 +27,10 @@
         android:id="@+id/tvContent"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginLeft="3.0dip"
         android:maxLines="2"
-        android:layout_alignLeft="@id/tvTitle"
-        android:layout_below="@id/tvTitle"
+        android:layout_alignLeft="@id/tvTime"
+        android:layout_below="@id/tvTime"
         android:textSize="14sp"
         android:textColor="#ff555555" />
     

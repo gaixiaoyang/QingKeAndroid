@@ -9,28 +9,24 @@ public class Activitys extends BmobObject {
 	 */
 	private static final long serialVersionUID = 1L;
 
-	private String friend_list;
+	private String sex;
 	private String time;
 	private String address;
 	private String content;
 	private String user_id;
-	private boolean isOpen;
+	private String avatar;
 	private long timestamp;
 
 	public Activitys() {
-		
+
 	}
 
-	public boolean isOpen() {
-		return isOpen;
+	public String getAvatar() {
+		return avatar;
 	}
 
-	public void setOpen(boolean isOpen) {
-		this.isOpen = isOpen;
-	}
-
-	public String getFriend_list() {
-		return friend_list;
+	public void setAvatar(String avatar) {
+		this.avatar = avatar;
 	}
 
 	public String getTime() {
@@ -49,8 +45,12 @@ public class Activitys extends BmobObject {
 		return timestamp;
 	}
 
-	public void setFriend_list(String friend_list) {
-		this.friend_list = friend_list;
+	public String getSex() {
+		return sex;
+	}
+
+	public void setSex(String sex) {
+		this.sex = sex;
 	}
 
 	public void setTime(String time) {

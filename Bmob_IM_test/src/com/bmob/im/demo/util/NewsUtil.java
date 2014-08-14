@@ -22,7 +22,7 @@ public class NewsUtil {
 				hm.put("uri",
 						"http://photocdn.sohu.com/20131101/Img389373139.jpg");
 			}
-			hm.put("title", "国内成品油价两连跌几成定局");
+			hm.put("time", "2014-07-11  南锣鼓巷");
 			hm.put("content", "国内成品油今日迎调价窗口，机构预计每升降价0.1元。");
 			hm.put("review", i + "跟帖");
 			ret.add(hm);

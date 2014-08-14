@@ -4,6 +4,8 @@ import java.util.*;
 
 import android.annotation.*;
 import android.app.*;
+import android.app.AlertDialog.Builder;
+import android.content.*;
 import android.os.*;
 import android.text.format.*;
 import android.view.*;
@@ -40,7 +42,7 @@ public class ActivityFragment extends FragmentBase implements OnItemClickListene
 	private PullToRefreshListView pullToRefreshListView = null;
 	
 	private ActivityListAdapter newAdapter = null;
-	
+
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -55,11 +57,10 @@ public class ActivityFragment extends FragmentBase implements OnItemClickListene
 	@Override
 	public void onActivityCreated(android.os.Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
-		//activity_view = LayoutInflater.from(this.getActivity()).inflate(R.layout.fragment_activity, null);
-		initTopBarForOnlyTitle("周围的请客");
-		initPullToRefreshListView(pullToRefreshListView, newAdapter);
-		newAdapter = new ActivityListAdapter(this.getActivity(), getActivities(10),"activity");
+		initTopBarForOnlyTitle("他/她们正在请客");
+		newAdapter = new ActivityListAdapter(this.getActivity(), getActivities(10,true),"activity");
 		pullToRefreshListView = (PullToRefreshListView) this.findViewById(R.id.list_activity);
+		initPullToRefreshListView(pullToRefreshListView, newAdapter);
 	};
 	
 	private void initPullToRefreshListView(PullToRefreshListView rtflv,
@@ -69,11 +70,13 @@ public class ActivityFragment extends FragmentBase implements OnItemClickListene
 		rtflv.setAdapter(adapter);
 	}
 	
-	private ArrayList<HashMap<String, String>> getActivities(int n){
+	private ArrayList<HashMap<String, String>> getActivities(int n,final boolean fromInit){
 		final ProgressDialog progress = new ProgressDialog(this.getActivity());
-		progress.setMessage("正在寻找请客...");
-		progress.setCanceledOnTouchOutside(false);
-		progress.show();
+		if(fromInit){
+			progress.setMessage("正在寻找请客...");
+			progress.setCanceledOnTouchOutside(false);
+			progress.show();
+		}
 		final ArrayList<HashMap<String, String>> ret = new ArrayList<HashMap<String, String>>();
 		BmobQuery<Activitys> query = new BmobQuery<Activitys>();
 		query.findObjects(this.getActivity(), new FindListener<Activitys>() {
@@ -81,22 +84,27 @@ public class ActivityFragment extends FragmentBase implements OnItemClickListene
 		        public void onSuccess(List<Activitys> object) {
 		        	for (int i = 0; i < object.size(); i++) {
 		        		HashMap<String, String> hm = new HashMap<String, String>();
-		        		if (i % 2 == 0) {
-		    				hm.put("uri",
-		    						"http://images.china.cn/attachement/jpg/site1000/20131029/001fd04cfc4813d9af0118.jpg");
-		    			} else {
-		    				hm.put("uri",
-		    						"http://photocdn.sohu.com/20131101/Img389373139.jpg");
-		    			}
-		        		hm.put("title", object.get(i).getTime() + " / " + object.get(i).getAddress());
+		    			hm.put("uri",object.get(i).getAvatar());
+		        		hm.put("time", object.get(i).getTime() + "  " + object.get(i).getAddress());
 		    			hm.put("content", object.get(i).getContent());
-		    			hm.put("review", i + "跟帖");
+		    			String sex = object.get(i).getSex();
+		    			if(sex.equals("male")){
+		    				hm.put("review", "邀请对象：男士");
+		    			}else if(sex.equals("female")){
+		    				hm.put("review", "邀请对象：女士");
+		    			}
 		        		ret.add(hm);
 					}
-		        	progress.dismiss();
+		        	if(fromInit){
+		        		progress.dismiss();
+		        	}
 		        }
 		        @Override
 		        public void onError(int code, String msg) {
+		        	if(fromInit){
+		        		progress.dismiss();
+		        	}
+		        	Toast.makeText(ActivityFragment.this.getActivity(), "请检查网络", Toast.LENGTH_SHORT).show();
 		        	ShowLog(msg);
 		        }
 		});
@@ -111,6 +119,18 @@ public class ActivityFragment extends FragmentBase implements OnItemClickListene
 	@Override
 	public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
+	}
+	
+	protected void showDialog(String message) {
+		AlertDialog.Builder builder = new Builder(this.getActivity());
+		builder.setMessage(message);
+		builder.setPositiveButton("确认", new android.content.DialogInterface.OnClickListener() {
+			@Override
+			public void onClick(DialogInterface dialog, int which) {
+				dialog.dismiss();
+			}
+		});
+		builder.create().show();
 	}
 	
 	class MyOnRefreshListener2 implements OnRefreshListener2<ListView> {
@@ -155,12 +175,7 @@ public class ActivityFragment extends FragmentBase implements OnItemClickListene
 		@Override
 		protected Integer doInBackground(String... params) {
 			if (CommonUtils.isWifiConnected(ActivityFragment.this.getActivity())) {
-				try {
-					Thread.sleep(1000);
-					return HTTP_REQUEST_SUCCESS;
-				} catch (InterruptedException e) {
-					e.printStackTrace();
-				}
+				return HTTP_REQUEST_SUCCESS;
 			}
 			return HTTP_REQUEST_ERROR;
 		}
@@ -169,14 +184,13 @@ public class ActivityFragment extends FragmentBase implements OnItemClickListene
 		protected void onPostExecute(Integer result) {
 			super.onPostExecute(result);
 			switch (result) {
-			case HTTP_REQUEST_SUCCESS:
-				newAdapter.addNews(getActivities(10));
-				newAdapter.notifyDataSetChanged();
-				break;
-			case HTTP_REQUEST_ERROR:
-				Toast.makeText(ActivityFragment.this.getActivity(), "请检查网络", Toast.LENGTH_SHORT)
-						.show();
-				break;
+				case HTTP_REQUEST_SUCCESS:
+					newAdapter.addNews(getActivities(10,false));
+					newAdapter.notifyDataSetChanged();
+					break;
+				case HTTP_REQUEST_ERROR:
+					Toast.makeText(ActivityFragment.this.getActivity(), "请检查网络", Toast.LENGTH_SHORT).show();
+					break;
 			}
 			mPtrlv.onRefreshComplete();
 		}

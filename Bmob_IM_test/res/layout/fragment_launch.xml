@@ -57,73 +57,35 @@
                             android:layout_marginRight="5.0dip"
                             android:background="@drawable/redline" />
 
-                        <TextView
-                            android:id="@+id/tv_name"
-                            android:layout_width="fill_parent"
-                            android:layout_height="fill_parent"
-                            android:layout_weight="1.0"
-                            android:background="@null"
-                            android:dropDownHorizontalOffset="-10.0dip"
-                            android:dropDownSelector="#fff4e7dd"
-                            android:dropDownVerticalOffset="0.0dip"
-                            android:gravity="center_vertical"
-                            android:hint="点击添加邀请人"
-                            android:singleLine="true"
-                            android:textColor="@color/dark"
-                            android:textColorHint="@color/hintColor"
-                            android:textSize="16.0sp" />
-
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="fill_parent"
-                        android:layout_height="50.0dip"
-                        android:layout_marginTop="5.0dip"
-                        android:background="@drawable/regist_bg_circle"
-                        android:gravity="center_vertical"
-                        android:orientation="horizontal" >
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginLeft="10.0dip"
-                            android:text="公开 "
-                            android:textColor="@color/TextRed"
-                            android:textSize="16.0sp" />
-
-                        <View
-                            android:layout_width="1.0dip"
-                            android:layout_height="fill_parent"
-                            android:layout_marginRight="5.0dip"
-                            android:background="@drawable/redline" />
-
-                        <RadioGroup
+                       <RadioGroup
                             android:id="@+id/gender"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:orientation="horizontal" >
 
-                            <RadioButton
-                                android:id="@+id/is_agree"
+                             <RadioButton
+                                android:id="@+id/female"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:button="@drawable/add_brith_xingbie"
                                 android:checked="true"
-                                android:text="是"
+                                android:text="女"
+                                android:textColor="@color/dark"
+                                android:textSize="16.0sp" />
+                           
+                            <RadioButton
+                                android:id="@+id/male"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                               	android:layout_marginLeft="20.0dip"
+                                android:button="@drawable/add_brith_xingbie"
+                                android:text="男"
                                 android:textColor="@color/dark"
                                 android:textColorHint="@drawable/add_brith_xingbie_fontcolor"
                                 android:textSize="16.0sp" />
 
-                            <RadioButton
-                                android:id="@+id/is_disagree"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginLeft="20.0dip"
-                                android:button="@drawable/add_brith_xingbie"
-                                android:text="否"
-                                android:textColor="@color/dark"
-                                android:textSize="16.0sp" />
                         </RadioGroup>
+
                     </LinearLayout>
 
                     <LinearLayout

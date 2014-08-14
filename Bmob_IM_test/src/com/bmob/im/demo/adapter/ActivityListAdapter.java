@@ -3,6 +3,7 @@ package com.bmob.im.demo.adapter;
 import java.util.*;
 
 import android.content.*;
+import android.text.*;
 import android.view.*;
 import android.view.View.OnClickListener;
 import android.widget.*;
@@ -21,9 +22,10 @@ public class ActivityListAdapter extends BaseAdapter {
 	
 	static class ViewHolder {
 		ImageView ivPreview;
-		TextView tvTitle;
+		TextView tvTime;
 		TextView tvContent;
 		TextView tvReview;
+		RelativeLayout ivLayout;
 	}
 	
 	private final Context context;
@@ -67,30 +69,26 @@ public class ActivityListAdapter extends BaseAdapter {
 			convertView = LayoutInflater.from(context).inflate(R.layout.item_news, null);
 			holder = new ViewHolder();
 			holder.ivPreview = (ImageView) convertView.findViewById(R.id.ivPreview);
-			holder.tvTitle = (TextView) convertView.findViewById(R.id.tvTitle);
+			holder.tvTime = (TextView) convertView.findViewById(R.id.tvTime);
 			holder.tvContent = (TextView) convertView.findViewById(R.id.tvContent);
 			holder.tvReview = (TextView) convertView.findViewById(R.id.tvReview);
+			holder.ivLayout = (RelativeLayout) convertView.findViewById(R.id.ivLayout);
 			
 			convertView.setTag(holder);
 		} else {
 			holder = (ViewHolder) convertView.getTag();
 		}
-		
-		
-		imageLoader.displayImage(getItem(position).get("uri"), holder.ivPreview, options);
-		holder.tvTitle.setText(getItem(position).get("title"));
+		String avatar = getItem(position).get("uri");
+		if (!TextUtils.isEmpty(avatar)) {
+			imageLoader.displayImage(avatar, holder.ivPreview, options);
+		} else {
+			holder.ivPreview.setImageDrawable(convertView.getResources().getDrawable(R.drawable.head));
+		}
+		holder.tvTime.setText(getItem(position).get("time"));
 		holder.tvContent.setText(getItem(position).get("content"));
 		holder.tvReview.setText(getItem(position).get("review"));
 		
-		holder.tvTitle.setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View arg0) {
-				Intent intent = new Intent(context,DetailActivity.class);
-				intent.putExtra("from", from);
-				context.startActivity(intent);
-			}
-		});
-		holder.tvContent.setOnClickListener(new OnClickListener() {
+		holder.ivLayout.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View arg0) {
 				Intent intent = new Intent(context,DetailActivity.class);
