@@ -1,35 +1,27 @@
 package com.bmob.im.demo;
 
-import java.io.File;
-import java.util.HashMap;
-import java.util.Map;
+import java.io.*;
+import java.util.*;
 
-import android.app.Application;
-import android.app.NotificationManager;
-import android.content.Context;
-import android.content.SharedPreferences;
-import android.media.MediaPlayer;
-import android.preference.PreferenceManager;
-import cn.bmob.im.BmobChat;
-import cn.bmob.im.BmobUserManager;
-import cn.bmob.im.bean.BmobChatUser;
-import cn.bmob.im.db.BmobDB;
-import cn.bmob.im.util.BmobLog;
-import cn.bmob.v3.datatype.BmobGeoPoint;
+import android.app.*;
+import android.content.*;
+import android.media.*;
+import android.preference.*;
+import cn.bmob.im.*;
+import cn.bmob.im.bean.*;
+import cn.bmob.im.db.*;
+import cn.bmob.im.util.*;
+import cn.bmob.v3.datatype.*;
 
-import com.baidu.location.BDLocation;
-import com.baidu.location.BDLocationListener;
-import com.baidu.location.LocationClient;
-import com.baidu.mapapi.SDKInitializer;
-import com.bmob.im.demo.util.CollectionUtils;
-import com.bmob.im.demo.util.SharePreferenceUtil;
-import com.nostra13.universalimageloader.cache.disc.impl.UnlimitedDiscCache;
-import com.nostra13.universalimageloader.cache.disc.naming.Md5FileNameGenerator;
-import com.nostra13.universalimageloader.cache.memory.impl.WeakMemoryCache;
-import com.nostra13.universalimageloader.core.ImageLoader;
-import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
-import com.nostra13.universalimageloader.core.assist.QueueProcessingType;
-import com.nostra13.universalimageloader.utils.StorageUtils;
+import com.baidu.location.*;
+import com.baidu.mapapi.*;
+import com.bmob.im.demo.util.*;
+import com.nostra13.universalimageloader.cache.disc.impl.*;
+import com.nostra13.universalimageloader.cache.disc.naming.*;
+import com.nostra13.universalimageloader.cache.memory.impl.*;
+import com.nostra13.universalimageloader.core.*;
+import com.nostra13.universalimageloader.core.assist.*;
+import com.nostra13.universalimageloader.utils.*;
 
 /**
  * 自定义全局Applcation类
@@ -51,7 +43,7 @@ public class CustomApplcation extends Application {
 		// TODO Auto-generated method stub
 		super.onCreate();
 		// 是否开启debug模式--默认开启状态
-		BmobChat.DEBUG_MODE = true;
+		//BmobChat.DEBUG_MODE = true;
 		mInstance = this;
 		init();
 	}

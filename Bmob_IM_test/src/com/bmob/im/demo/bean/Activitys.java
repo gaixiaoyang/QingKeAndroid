@@ -14,11 +14,38 @@ public class Activitys extends BmobObject {
 	private String address;
 	private String content;
 	private String user_id;
+	private String user_name;
+	private String currentLat;
+	private String currentLong;
 	private String avatar;
 	private long timestamp;
 
 	public Activitys() {
 
+	}
+
+	public String getCurrentLat() {
+		return currentLat;
+	}
+
+	public String getCurrentLong() {
+		return currentLong;
+	}
+
+	public void setCurrentLat(String currentLat) {
+		this.currentLat = currentLat;
+	}
+
+	public void setCurrentLong(String currentLong) {
+		this.currentLong = currentLong;
+	}
+
+	public String getUser_name() {
+		return user_name;
+	}
+
+	public void setUser_name(String user_name) {
+		this.user_name = user_name;
 	}
 
 	public String getAvatar() {

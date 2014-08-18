@@ -11,7 +11,6 @@ import android.view.*;
 import android.view.View.OnClickListener;
 import android.widget.*;
 import cn.bmob.im.*;
-import cn.bmob.v3.*;
 import cn.bmob.v3.listener.*;
 
 import com.bmob.im.demo.*;
@@ -108,48 +107,40 @@ public class LaunchFragment extends FragmentBase implements OnClickListener {
 			activity.setTime(time);
 			activity.setTimestamp(System.currentTimeMillis());
 			activity.setUser_id(user.getObjectId());
+			activity.setUser_name(user.getUsername());
 			String avatar = user.getAvatar();
 			if(avatar == null || avatar.equals("")){
 				activity.setAvatar("");
 			}else{
 				activity.setAvatar(avatar);
 			}
-			BmobQuery<Activitys> query = new BmobQuery<Activitys>();
-			long threeDaysAgoMillis = System.currentTimeMillis() - 60 * 5 * 1000;
-			query.addWhereGreaterThanOrEqualTo("timestamp", threeDaysAgoMillis);
-			query.order("-timestamp");
-			query.addWhereEqualTo("user_id", user.getObjectId());
-			query.findObjects(this.getActivity(), new FindListener<Activitys>() {
+			try {
+				String currentLat = CustomApplcation.getInstance().getLatitude();
+				activity.setCurrentLat(currentLat);
+			} catch (Exception e) {
+				activity.setCurrentLat("");
+			}
+			try {
+				String currentLong = CustomApplcation.getInstance().getLongtitude();
+				activity.setCurrentLong(currentLong);
+			} catch (Exception e) {
+				activity.setCurrentLong("");
+			}
+			activity.save(LaunchFragment.this.getActivity(), new SaveListener() {
 				@Override
-				public void onSuccess(List<Activitys> object) {
-					if(object.size() > 0){
-						showSaveSuccessDialog("请不要发的太快，5分钟内只能发一次！");
-						progress.dismiss();
-					}else{
-						activity.save(LaunchFragment.this.getActivity(), new SaveListener() {
-							@Override
-							public void onSuccess() {
-								ShowToast("发布成功！");
-								progress.dismiss();
-								tv_time.setText("");
-								tv_address.setText("");
-								tv_content.setText("");
-							}
-							
-							@Override
-							public void onFailure(int arg0, String arg1) {
-								progress.dismiss();
-								ShowToast("发布失败,请检查网络！\n" + arg1);
-								ShowLog(arg1);
-							}
-						});
-					}
+				public void onSuccess() {
+					ShowToast("发布成功！");
+					progress.dismiss();
+					tv_time.setText("");
+					tv_address.setText("");
+					tv_content.setText("");
 				}
 				
 				@Override
-				public void onError(int code, String msg) {
-					ShowLog(msg);
+				public void onFailure(int arg0, String arg1) {
 					progress.dismiss();
+					ShowToast("发布失败,请检查网络！\n" + arg1);
+					ShowLog(arg1);
 				}
 			});
 		}

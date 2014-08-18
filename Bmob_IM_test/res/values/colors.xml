@@ -32,6 +32,10 @@
     <color name="guide_color">#898989</color>
 
     <color name="common_bg">#fcfcfc</color>
+    <color name="font_value">#ff888271</color>
+    <color name="font_attribute">#ff000000</color>
+    <color name="transparent_background">#00ffffff</color>
+    <color name="blue">#ff0f81d9</color>
     
     <!-- Launch -->
      <color name="GhostWhite">#fff8f8ff</color>

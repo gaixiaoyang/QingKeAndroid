@@ -12,13 +12,13 @@ import android.view.*;
 import android.widget.*;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.AdapterView.OnItemLongClickListener;
+import cn.bmob.im.*;
 import cn.bmob.v3.*;
 import cn.bmob.v3.listener.*;
 
 import com.bmob.im.demo.R;
 import com.bmob.im.demo.adapter.*;
 import com.bmob.im.demo.bean.*;
-import com.bmob.im.demo.config.*;
 import com.bmob.im.demo.ui.*;
 import com.bmob.im.demo.util.*;
 import com.handmark.pulltorefresh.library.*;
@@ -42,13 +42,16 @@ public class ActivityFragment extends FragmentBase implements OnItemClickListene
 	
 	private PullToRefreshListView pullToRefreshListView = null;
 
-	private ActivityListAdapter newAdapter = null;
+	private FeedListAdapter adapter = null;
 	
 	private long currentTimeMillis = 0;
+	
+	private BmobUserManager userManager;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		userManager = BmobUserManager.getInstance(this.getActivity());
 	}
 
 	@Override
@@ -63,7 +66,7 @@ public class ActivityFragment extends FragmentBase implements OnItemClickListene
 		initData();
 	};
 
-	private void initPullToRefreshListView(PullToRefreshListView rtflv, ActivityListAdapter adapter) {
+	private void initPullToRefreshListView(PullToRefreshListView rtflv, FeedListAdapter adapter) {
 		rtflv.setMode(Mode.PULL_FROM_START);
 		rtflv.setOnRefreshListener(new MyOnRefreshListener2(rtflv));
 		rtflv.setAdapter(adapter);
@@ -76,8 +79,10 @@ public class ActivityFragment extends FragmentBase implements OnItemClickListene
 		progress.show();
 
 		BmobQuery<Activitys> query = new BmobQuery<Activitys>();
-		long threeDaysAgoMillis = System.currentTimeMillis() - 24 * 60 * 60 * Config.overDays * 1000;
+		long threeDaysAgoMillis = System.currentTimeMillis() - 24 * 60 * 60 * 2 * 1000;
 		query.addWhereGreaterThanOrEqualTo("timestamp", threeDaysAgoMillis);
+		long threeDaysAfterMillis = System.currentTimeMillis() + 24 * 60 * 60 * 30 * 1000;
+		query.addWhereLessThanOrEqualTo("timestamp", threeDaysAfterMillis);
 		query.order("-timestamp");
 		query.findObjects(this.getActivity(), new FindListener<Activitys>() {
 			@Override
@@ -85,31 +90,39 @@ public class ActivityFragment extends FragmentBase implements OnItemClickListene
 				ArrayList<HashMap<String, String>> ret = new ArrayList<HashMap<String, String>>();
 				for (int i = 0; i < object.size(); i++) {
 					HashMap<String, String> hm = new HashMap<String, String>();
-					hm.put("uri", object.get(i).getAvatar());
-					hm.put("time", object.get(i).getTime() + "  " + object.get(i).getAddress());
+					hm.put("avatar", object.get(i).getAvatar());
+					hm.put("name", object.get(i).getAddress());
+					hm.put("currentLat", object.get(i).getCurrentLat());
+					hm.put("currentLong", object.get(i).getCurrentLong());
+					hm.put("time", object.get(i).getTime());
 					hm.put("content", object.get(i).getContent());
 					String sex = object.get(i).getSex();
-					if (sex.equals("male")) {
-						hm.put("review", "邀请对象：男士");
-					} else if (sex.equals("female")) {
-						hm.put("review", "邀请对象：女士");
+					User user = userManager.getCurrentUser(User.class);
+					if(user.getSex() == true){
+						if (sex.equals("female")) {
+							continue;
+						}
+					}else{
+						if (sex.equals("male")) {
+							continue;
+						}
 					}
 					ret.add(hm);
 				}
 				progress.dismiss();
 				currentTimeMillis = System.currentTimeMillis();
-				newAdapter = new ActivityListAdapter(ActivityFragment.this.getActivity(), ret, "activity");
+				adapter = new FeedListAdapter(ActivityFragment.this.getActivity(), ret, "activity");
 				pullToRefreshListView = (PullToRefreshListView) ActivityFragment.this.findViewById(R.id.list_activity);
-				initPullToRefreshListView(pullToRefreshListView, newAdapter);
+				initPullToRefreshListView(pullToRefreshListView, adapter);
 			}
 
 			@Override
 			public void onError(int code, String msg) {
 				progress.dismiss();
-				newAdapter = new ActivityListAdapter(ActivityFragment.this.getActivity(),
+				adapter = new FeedListAdapter(ActivityFragment.this.getActivity(),
 						new ArrayList<HashMap<String, String>>(), "activity");
 				pullToRefreshListView = (PullToRefreshListView) ActivityFragment.this.findViewById(R.id.list_activity);
-				initPullToRefreshListView(pullToRefreshListView, newAdapter);
+				initPullToRefreshListView(pullToRefreshListView, adapter);
 				Toast.makeText(ActivityFragment.this.getActivity(), "请检查网络", Toast.LENGTH_SHORT).show();
 				ShowLog(msg);
 			}
@@ -188,17 +201,16 @@ public class ActivityFragment extends FragmentBase implements OnItemClickListene
 			super.onPostExecute(result);
 			switch (result) {
 			case HTTP_REQUEST_SUCCESS:
-				final ProgressDialog progress = new ProgressDialog(ActivityFragment.this.getActivity());
-				progress.setMessage("正在寻找请客...");
-				progress.setCanceledOnTouchOutside(false);
-				progress.show();
-
 				BmobQuery<Activitys> query = new BmobQuery<Activitys>();
 				if(currentTimeMillis == 0){
-					long threeDaysAgoMillis = System.currentTimeMillis() - 24 * 60 * 60 * Config.overDays * 1000;
+					long threeDaysAgoMillis = System.currentTimeMillis() - 24 * 60 * 60 * 2 * 1000;
 					query.addWhereGreaterThanOrEqualTo("timestamp", threeDaysAgoMillis);
+					long threeDaysAfterMillis = System.currentTimeMillis() + 24 * 60 * 60 * 30 * 1000;
+					query.addWhereLessThanOrEqualTo("timestamp", threeDaysAfterMillis);
 				}else{
 					query.addWhereGreaterThanOrEqualTo("timestamp", currentTimeMillis);
+					long threeDaysAfterMillis = System.currentTimeMillis() + 24 * 60 * 60 * 30 * 1000;
+					query.addWhereLessThanOrEqualTo("timestamp", threeDaysAfterMillis);
 				}
 				query.order("-timestamp");
 				query.findObjects(ActivityFragment.this.getActivity(), new FindListener<Activitys>() {
@@ -207,36 +219,44 @@ public class ActivityFragment extends FragmentBase implements OnItemClickListene
 						ArrayList<HashMap<String, String>> ret = new ArrayList<HashMap<String, String>>();
 						for (int i = 0; i < object.size(); i++) {
 							HashMap<String, String> hm = new HashMap<String, String>();
-							hm.put("uri", object.get(i).getAvatar());
-							hm.put("time", object.get(i).getTime() + "  " + object.get(i).getAddress());
+							hm.put("avatar", object.get(i).getAvatar());
+							hm.put("name", object.get(i).getAddress());
+							hm.put("currentLat", object.get(i).getCurrentLat());
+							hm.put("currentLong", object.get(i).getCurrentLong());
+							hm.put("time", object.get(i).getTime());
 							hm.put("content", object.get(i).getContent());
 							String sex = object.get(i).getSex();
-							if (sex.equals("male")) {
-								hm.put("review", "邀请对象：男士");
-							} else if (sex.equals("female")) {
-								hm.put("review", "邀请对象：女士");
+							User user = userManager.getCurrentUser(User.class);
+							if(user.getSex() == true){
+								if (sex.equals("female")) {
+									continue;
+								}
+							}else{
+								if (sex.equals("male")) {
+									continue;
+								}
 							}
 							ret.add(hm);
 						}
-						progress.dismiss();
 						currentTimeMillis = System.currentTimeMillis();
-						newAdapter.addNews(ret);
-						newAdapter.notifyDataSetChanged();
+						adapter.addNews(ret);
+						adapter.notifyDataSetChanged();
+						mPtrlv.onRefreshComplete();
 					}
 
 					@Override
 					public void onError(int code, String msg) {
-						progress.dismiss();
 						Toast.makeText(ActivityFragment.this.getActivity(), "请检查网络", Toast.LENGTH_SHORT).show();
 						ShowLog(msg);
+						mPtrlv.onRefreshComplete();
 					}
 				});
 				break;
 			case HTTP_REQUEST_ERROR:
 				Toast.makeText(ActivityFragment.this.getActivity(), "请检查网络", Toast.LENGTH_SHORT).show();
+				mPtrlv.onRefreshComplete();
 				break;
 			}
-			mPtrlv.onRefreshComplete();
 		}
 	}
 }
