@@ -37,7 +37,8 @@ public class FeedListAdapter extends BaseAdapter {
 		ImageButton more;
 		LinearLayout comment;
 		HandyTextView commentCount;
-		HandyTextView site;
+		HandyTextView site1;
+		HandyTextView site2;
 	}
 
 	private final Context context;
@@ -85,7 +86,8 @@ public class FeedListAdapter extends BaseAdapter {
 			holder.more = (ImageButton) convertView.findViewById(R.id.feed_item_ib_more);
 			holder.comment = (LinearLayout) convertView.findViewById(R.id.feed_item_layout_comment);
 			holder.commentCount = (HandyTextView) convertView.findViewById(R.id.feed_item_htv_commentcount);
-			holder.site = (HandyTextView) convertView.findViewById(R.id.feed_item_htv_site);
+			holder.site1 = (HandyTextView) convertView.findViewById(R.id.feed_item_htv_site1);
+			holder.site2 = (HandyTextView) convertView.findViewById(R.id.feed_item_htv_site2);
 			convertView.setTag(holder);
 		} else {
 			holder = (ViewHolder) convertView.getTag();
@@ -105,18 +107,25 @@ public class FeedListAdapter extends BaseAdapter {
 		//	holder.contentImage.setVisibility(View.VISIBLE);
 		//	holder.contentImage.setImageBitmap(mApplication.getStatusPhoto(feed.getContentImage()));
 		//}
-
+		String sex = getItem(position).get("sex");
+		StringBuffer text = new StringBuffer();
+		text.append("邀请：");
+		if(sex.equals("male")){
+			text.append("男士   ");
+		}else if(sex.equals("female")){
+			text.append("女士   ");
+		}
+		holder.site1.setText(text.toString());
 		String launchLat = getItem(position).get("currentLat");
 		String launchLong = getItem(position).get("currentLong");
 		String currentLat = CustomApplcation.getInstance().getLatitude();
 		String currentLong = CustomApplcation.getInstance().getLongtitude();
 		if (launchLong != null && launchLat != null && !currentLat.equals("") && !currentLong.equals("")) {
-			
 			double distance = DistanceOfTwoPoints(Double.parseDouble(currentLat), Double.parseDouble(currentLong),
 					Double.parseDouble(launchLat), Double.parseDouble(launchLong));
-			holder.site.setText(String.valueOf(distance) + "米");
+			holder.site2.setText("   距离：" + String.valueOf(distance) + "米");
 		} else {
-			holder.site.setText("未知");
+			holder.site2.setText("   距离：" + "未知");
 		}
 
 		holder.comment.setOnClickListener(new OnClickListener() {

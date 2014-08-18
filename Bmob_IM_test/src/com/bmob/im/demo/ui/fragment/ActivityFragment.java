@@ -46,7 +46,7 @@ public class ActivityFragment extends FragmentBase implements OnItemClickListene
 	
 	private long currentTimeMillis = 0;
 	
-	private BmobUserManager userManager;
+	//private BmobUserManager userManager;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -79,10 +79,10 @@ public class ActivityFragment extends FragmentBase implements OnItemClickListene
 		progress.show();
 
 		BmobQuery<Activitys> query = new BmobQuery<Activitys>();
-		long threeDaysAgoMillis = System.currentTimeMillis() - 24 * 60 * 60 * 2 * 1000;
+		long threeDaysAgoMillis = System.currentTimeMillis() - 24 * 60 * 60 * 1 * 1000;
 		query.addWhereGreaterThanOrEqualTo("timestamp", threeDaysAgoMillis);
-		long threeDaysAfterMillis = System.currentTimeMillis() + 24 * 60 * 60 * 30 * 1000;
-		query.addWhereLessThanOrEqualTo("timestamp", threeDaysAfterMillis);
+		/*long threeDaysAfterMillis = System.currentTimeMillis() + 24 * 60 * 60 * 30 * 1000;
+		query.addWhereLessThanOrEqualTo("timestamp", threeDaysAfterMillis);*/
 		query.order("-timestamp");
 		query.findObjects(this.getActivity(), new FindListener<Activitys>() {
 			@Override
@@ -96,17 +96,18 @@ public class ActivityFragment extends FragmentBase implements OnItemClickListene
 					hm.put("currentLong", object.get(i).getCurrentLong());
 					hm.put("time", object.get(i).getTime());
 					hm.put("content", object.get(i).getContent());
-					String sex = object.get(i).getSex();
+					hm.put("sex", object.get(i).getSex());
+					/*String sex = object.get(i).getSex();
 					User user = userManager.getCurrentUser(User.class);
 					if(user.getSex() == true){
 						if (sex.equals("female")) {
 							continue;
 						}
-					}else{
+					}else if(user.getSex() == false){
 						if (sex.equals("male")) {
 							continue;
 						}
-					}
+					}*/
 					ret.add(hm);
 				}
 				progress.dismiss();
@@ -203,14 +204,14 @@ public class ActivityFragment extends FragmentBase implements OnItemClickListene
 			case HTTP_REQUEST_SUCCESS:
 				BmobQuery<Activitys> query = new BmobQuery<Activitys>();
 				if(currentTimeMillis == 0){
-					long threeDaysAgoMillis = System.currentTimeMillis() - 24 * 60 * 60 * 2 * 1000;
+					long threeDaysAgoMillis = System.currentTimeMillis() - 24 * 60 * 60 * 1 * 1000;
 					query.addWhereGreaterThanOrEqualTo("timestamp", threeDaysAgoMillis);
-					long threeDaysAfterMillis = System.currentTimeMillis() + 24 * 60 * 60 * 30 * 1000;
-					query.addWhereLessThanOrEqualTo("timestamp", threeDaysAfterMillis);
+				/*	long threeDaysAfterMillis = System.currentTimeMillis() + 24 * 60 * 60 * 30 * 1000;
+					query.addWhereLessThanOrEqualTo("timestamp", threeDaysAfterMillis);*/
 				}else{
 					query.addWhereGreaterThanOrEqualTo("timestamp", currentTimeMillis);
-					long threeDaysAfterMillis = System.currentTimeMillis() + 24 * 60 * 60 * 30 * 1000;
-					query.addWhereLessThanOrEqualTo("timestamp", threeDaysAfterMillis);
+				/*	long threeDaysAfterMillis = System.currentTimeMillis() + 24 * 60 * 60 * 30 * 1000;
+					query.addWhereLessThanOrEqualTo("timestamp", threeDaysAfterMillis);*/
 				}
 				query.order("-timestamp");
 				query.findObjects(ActivityFragment.this.getActivity(), new FindListener<Activitys>() {
@@ -225,17 +226,18 @@ public class ActivityFragment extends FragmentBase implements OnItemClickListene
 							hm.put("currentLong", object.get(i).getCurrentLong());
 							hm.put("time", object.get(i).getTime());
 							hm.put("content", object.get(i).getContent());
-							String sex = object.get(i).getSex();
+							hm.put("sex", object.get(i).getSex());
+							/*String sex = object.get(i).getSex();
 							User user = userManager.getCurrentUser(User.class);
 							if(user.getSex() == true){
 								if (sex.equals("female")) {
 									continue;
 								}
-							}else{
+							}else if(user.getSex() == false){
 								if (sex.equals("male")) {
 									continue;
 								}
-							}
+							}*/
 							ret.add(hm);
 						}
 						currentTimeMillis = System.currentTimeMillis();
