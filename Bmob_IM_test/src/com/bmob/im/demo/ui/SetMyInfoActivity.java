@@ -52,10 +52,13 @@ public class SetMyInfoActivity extends ActivityBase implements OnClickListener{
 	String username = "";
 	User user;
 	
+	BmobUserManager userManager;
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
+		userManager = BmobUserManager.getInstance(this);
 		//因为魅族手机下面有三个虚拟的导航按钮，需要将其隐藏掉，不然会遮掉拍照和相册两个按钮，且在setContentView之前调用才能生效
 		int currentapiVersion=android.os.Build.VERSION.SDK_INT;
 		if(currentapiVersion>=14){
@@ -111,6 +114,9 @@ public class SetMyInfoActivity extends ActivityBase implements OnClickListener{
 					btn_back.setVisibility(View.VISIBLE);
 					btn_chat.setOnClickListener(this);
 					btn_back.setOnClickListener(this);
+				}else if(username.equals(userManager.getCurrentUser().getUsername())){//是自己
+					btn_chat.setVisibility(View.GONE);
+					btn_back.setVisibility(View.GONE);
 				}else{
 					btn_back.setVisibility(View.GONE);
 					btn_chat.setVisibility(View.GONE);

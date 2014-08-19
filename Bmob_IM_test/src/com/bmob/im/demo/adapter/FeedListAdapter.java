@@ -2,13 +2,19 @@ package com.bmob.im.demo.adapter;
 
 import java.util.*;
 
+import android.app.*;
+import android.app.AlertDialog.Builder;
 import android.content.*;
 import android.text.*;
 import android.view.*;
 import android.view.View.OnClickListener;
 import android.widget.*;
+import cn.bmob.v3.*;
+import cn.bmob.v3.listener.*;
 
 import com.bmob.im.demo.*;
+import com.bmob.im.demo.bean.*;
+import com.bmob.im.demo.ui.*;
 import com.bmob.im.demo.view.*;
 import com.nostra13.universalimageloader.core.*;
 import com.nostra13.universalimageloader.core.display.*;
@@ -34,7 +40,7 @@ public class FeedListAdapter extends BaseAdapter {
 		HandyTextView name;
 		EmoticonsTextView content;
 		ImageView contentImage;
-		ImageButton more;
+		LinearLayout more;
 		LinearLayout comment;
 		HandyTextView commentCount;
 		HandyTextView site1;
@@ -83,8 +89,10 @@ public class FeedListAdapter extends BaseAdapter {
 			holder.name = (HandyTextView) convertView.findViewById(R.id.feed_item_htv_name);
 			holder.content = (EmoticonsTextView) convertView.findViewById(R.id.feed_item_etv_content);
 			holder.contentImage = (ImageView) convertView.findViewById(R.id.feed_item_iv_content);
-			holder.more = (ImageButton) convertView.findViewById(R.id.feed_item_ib_more);
+			holder.more = (LinearLayout) convertView.findViewById(R.id.feed_item_ib_more);
+			holder.more.setTag(getItem(position).get("id"));
 			holder.comment = (LinearLayout) convertView.findViewById(R.id.feed_item_layout_comment);
+			holder.comment.setTag(getItem(position).get("id"));
 			holder.commentCount = (HandyTextView) convertView.findViewById(R.id.feed_item_htv_commentcount);
 			holder.site1 = (HandyTextView) convertView.findViewById(R.id.feed_item_htv_site1);
 			holder.site2 = (HandyTextView) convertView.findViewById(R.id.feed_item_htv_site2);
@@ -98,6 +106,7 @@ public class FeedListAdapter extends BaseAdapter {
 		} else {
 			holder.avatar.setImageDrawable(convertView.getResources().getDrawable(R.drawable.head));
 		}
+		holder.avatar.setTag(avatar);
 		holder.name.setText(getItem(position).get("name"));
 		holder.time.setText(getItem(position).get("time"));
 		holder.content.setText(getItem(position).get("content"));
@@ -127,35 +136,61 @@ public class FeedListAdapter extends BaseAdapter {
 		} else {
 			holder.site2.setText("   距离：" + "未知");
 		}
+		//点击头像放大
+		holder.avatar.setOnClickListener(new OnClickListener() {
 
+			@Override
+			public void onClick(View view) {
+			}
+		});
+		//添加好友
 		holder.comment.setOnClickListener(new OnClickListener() {
 
 			@Override
-			public void onClick(View arg0) {
+			public void onClick(View view) {
+				final ProgressDialog progress = new ProgressDialog(FeedListAdapter.this.context);
+				progress.setMessage("正在添加好友...");
+				progress.setCanceledOnTouchOutside(false);
+				progress.show();
+				LinearLayout nameView = (LinearLayout) view;
+				String id = nameView.getTag().toString();
+				BmobQuery<User> query = new BmobQuery<User>();
+				query.getObject(FeedListAdapter.this.context, id, new GetListener<User>() {
+					@Override
+					public void onSuccess(User user) {
+						Intent intent = new Intent(FeedListAdapter.this.context,SetMyInfoActivity.class);
+						intent.putExtra("from", "add");
+						intent.putExtra("username", user.getUsername());
+						progress.dismiss();
+						FeedListAdapter.this.context.startActivity(intent);
+					}
 
+					@Override
+					public void onFailure(int code, String msg) {
+						Toast.makeText(FeedListAdapter.this.context, "请检查网络", Toast.LENGTH_SHORT).show();
+						progress.dismiss();
+					}
+				});
 			}
 		});
+		//申请加入
 		holder.more.setOnClickListener(new OnClickListener() {
 
 			@Override
-			public void onClick(View arg0) {
-
+			public void onClick(View view) {
+				LinearLayout nameView = (LinearLayout) view;
+				String id = nameView.getTag().toString();
+				AlertDialog.Builder builder = new Builder(FeedListAdapter.this.context);
+				builder.setMessage("申请成功加入'" + id + "'的请客成功！");
+				builder.setPositiveButton("确认", new android.content.DialogInterface.OnClickListener() {
+					@Override
+					public void onClick(DialogInterface dialog, int which) {
+						dialog.dismiss();
+					}
+				});
+				builder.create().show();
 			}
 		});
-		/*
-		 * holder.root.setOnClickListener(new OnClickListener() {
-		 * 
-		 * @Override
-		 * public void onClick(View v) {
-		 * mPosition = position;
-		 * Intent intent = new Intent(mContext, FeedProfileActivity.class);
-		 * intent.putExtra("entity_profile", mProfile);
-		 * intent.putExtra("entity_people", mPeople);
-		 * intent.putExtra("entity_feed", (Feed) getItem(mPosition));
-		 * mContext.startActivity(intent);
-		 * }
-		 * });
-		 */
 		return convertView;
 	}
 
