@@ -45,6 +45,8 @@ public class ActivityFragment extends FragmentBase implements OnItemClickListene
 	
 	private long currentTimeMillis = 0;
 	
+	private final int basicQueryNums = 10;
+	
 	//private BmobUserManager userManager;
 
 	@Override
@@ -80,8 +82,7 @@ public class ActivityFragment extends FragmentBase implements OnItemClickListene
 		BmobQuery<Activitys> query = new BmobQuery<Activitys>();
 		long threeDaysAgoMillis = System.currentTimeMillis() - 24 * 60 * 60 * 1 * 1000;
 		query.addWhereGreaterThanOrEqualTo("timestamp", threeDaysAgoMillis);
-		/*long threeDaysAfterMillis = System.currentTimeMillis() + 24 * 60 * 60 * 30 * 1000;
-		query.addWhereLessThanOrEqualTo("timestamp", threeDaysAfterMillis);*/
+		query.setLimit(basicQueryNums);
 		query.order("-timestamp");
 		query.findObjects(this.getActivity(), new FindListener<Activitys>() {
 			@Override
@@ -161,7 +162,12 @@ public class ActivityFragment extends FragmentBase implements OnItemClickListene
 
 		@Override
 		public void onPullUpToRefresh(PullToRefreshBase<ListView> refreshView) {
+			// 上拉刷新
+			String label = DateUtils.formatDateTime(ActivityFragment.this.getActivity(), System.currentTimeMillis(),
+					DateUtils.FORMAT_SHOW_TIME | DateUtils.FORMAT_SHOW_DATE | DateUtils.FORMAT_ABBREV_ALL);
 
+			refreshView.getLoadingLayoutProxy().setLastUpdatedLabel(label);
+			new GetNewsReserveTask(mPtflv).execute();
 		}
 	}
 
@@ -193,16 +199,15 @@ public class ActivityFragment extends FragmentBase implements OnItemClickListene
 			case HTTP_REQUEST_SUCCESS:
 				BmobQuery<Activitys> query = new BmobQuery<Activitys>();
 				if(currentTimeMillis == 0){
-					long threeDaysAgoMillis = System.currentTimeMillis() - 24 * 60 * 60 * 1 * 1000;
-					query.addWhereGreaterThanOrEqualTo("timestamp", threeDaysAgoMillis);
-					/*long threeDaysAfterMillis = System.currentTimeMillis() + 24 * 60 * 60 * 30 * 1000;
-					query.addWhereLessThanOrEqualTo("timestamp", threeDaysAfterMillis);*/
+					Calendar cal = Calendar.getInstance();
+					cal.add(Calendar.DAY_OF_MONTH, -1);
+					long systime = TimeUtil.dateToLong(cal.getTime());
+					query.addWhereGreaterThanOrEqualTo("timestamp", systime);
+					query.order("-timestamp");
 				}else{
 					query.addWhereGreaterThanOrEqualTo("timestamp", currentTimeMillis);
-					/*long threeDaysAfterMillis = System.currentTimeMillis() + 24 * 60 * 60 * 30 * 1000;
-					query.addWhereLessThanOrEqualTo("timestamp", threeDaysAfterMillis);*/
+					query.order("-timestamp");
 				}
-				query.order("-timestamp");
 				query.findObjects(ActivityFragment.this.getActivity(), new FindListener<Activitys>() {
 					@Override
 					public void onSuccess(List<Activitys> object) {
@@ -221,6 +226,75 @@ public class ActivityFragment extends FragmentBase implements OnItemClickListene
 						}
 						currentTimeMillis = System.currentTimeMillis();
 						adapter.addNews(ret);
+						adapter.notifyDataSetChanged();
+						mPtrlv.onRefreshComplete();
+					}
+
+					@Override
+					public void onError(int code, String msg) {
+						Toast.makeText(ActivityFragment.this.getActivity(), "请检查网络", Toast.LENGTH_SHORT).show();
+						ShowLog(msg);
+						mPtrlv.onRefreshComplete();
+					}
+				});
+				break;
+			case HTTP_REQUEST_ERROR:
+				Toast.makeText(ActivityFragment.this.getActivity(), "请检查网络", Toast.LENGTH_SHORT).show();
+				mPtrlv.onRefreshComplete();
+				break;
+			}
+		}
+	}
+	
+	/**
+	 * 请求网络获得新闻信息
+	 * 
+	 * @author Louis
+	 * 
+	 */
+	class GetNewsReserveTask extends AsyncTask<String, Void, Integer> {
+		private final PullToRefreshListView mPtrlv;
+
+		public GetNewsReserveTask(PullToRefreshListView ptrlv) {
+			this.mPtrlv = ptrlv;
+		}
+
+		@Override
+		protected Integer doInBackground(String... params) {
+			if (CommonUtils.isWifiConnected(ActivityFragment.this.getActivity())) {
+				return HTTP_REQUEST_SUCCESS;
+			}
+			return HTTP_REQUEST_ERROR;
+		}
+
+		@Override
+		protected void onPostExecute(Integer result) {
+			super.onPostExecute(result);
+			switch (result) {
+			case HTTP_REQUEST_SUCCESS:
+				BmobQuery<Activitys> query = new BmobQuery<Activitys>();
+				long threeDaysAgoMillis = System.currentTimeMillis() - 24 * 60 * 60 * 1 * 1000;
+				query.addWhereGreaterThanOrEqualTo("timestamp", threeDaysAgoMillis);
+				query.setSkip(adapter.getCount());
+				query.setLimit(basicQueryNums);
+				query.order("-timestamp");
+				query.findObjects(ActivityFragment.this.getActivity(), new FindListener<Activitys>() {
+					@Override
+					public void onSuccess(List<Activitys> object) {
+						ArrayList<HashMap<String, String>> ret = new ArrayList<HashMap<String, String>>();
+						for (int i = 0; i < object.size(); i++) {
+							HashMap<String, String> hm = new HashMap<String, String>();
+							hm.put("avatar", object.get(i).getAvatar());
+							hm.put("name", object.get(i).getAddress());
+							hm.put("currentLat", object.get(i).getCurrentLat());
+							hm.put("currentLong", object.get(i).getCurrentLong());
+							hm.put("time", object.get(i).getTime());
+							hm.put("content", object.get(i).getContent());
+							hm.put("id", object.get(i).getUser_id());
+							hm.put("sex", object.get(i).getSex());
+							ret.add(hm);
+						}
+						adapter.addReserveNews(ret);
 						adapter.notifyDataSetChanged();
 						mPtrlv.onRefreshComplete();
 					}

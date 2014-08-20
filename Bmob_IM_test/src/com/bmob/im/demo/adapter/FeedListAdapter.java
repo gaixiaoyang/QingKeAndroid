@@ -108,42 +108,42 @@ public class FeedListAdapter extends BaseAdapter {
 		}
 		holder.avatar.setTag(avatar);
 		holder.name.setText(getItem(position).get("name"));
-		holder.time.setText(getItem(position).get("time"));
+		holder.time.setText("请客时间：" + getItem(position).get("time"));
 		holder.content.setText(getItem(position).get("content"));
-		//if (feed.getContentImage() == null) {
-			holder.contentImage.setVisibility(View.GONE);
-		//} else {
-		//	holder.contentImage.setVisibility(View.VISIBLE);
-		//	holder.contentImage.setImageBitmap(mApplication.getStatusPhoto(feed.getContentImage()));
-		//}
+		// if (feed.getContentImage() == null) {
+		holder.contentImage.setVisibility(View.GONE);
+		// } else {
+		// holder.contentImage.setVisibility(View.VISIBLE);
+		// holder.contentImage.setImageBitmap(mApplication.getStatusPhoto(feed.getContentImage()));
+		// }
 		String sex = getItem(position).get("sex");
 		StringBuffer text = new StringBuffer();
-		text.append("邀请：");
-		if(sex.equals("male")){
-			text.append("男士   ");
-		}else if(sex.equals("female")){
-			text.append("女士   ");
+		if (sex.equals("male")) {
+			text.append("   女士勿扰");
+		} else if (sex.equals("female")) {
+			text.append("   男士勿扰");
 		}
-		holder.site1.setText(text.toString());
+		holder.site2.setText(text.toString());
 		String launchLat = getItem(position).get("currentLat");
 		String launchLong = getItem(position).get("currentLong");
 		String currentLat = CustomApplcation.getInstance().getLatitude();
 		String currentLong = CustomApplcation.getInstance().getLongtitude();
-		if (launchLong != null && launchLat != null && !currentLat.equals("") && !currentLong.equals("")) {
+		if (launchLong != null && launchLat != null && !launchLong.equals("") && !launchLat.equals("")
+				&& !currentLat.equals("") && !currentLong.equals("")) {
 			double distance = DistanceOfTwoPoints(Double.parseDouble(currentLat), Double.parseDouble(currentLong),
 					Double.parseDouble(launchLat), Double.parseDouble(launchLong));
-			holder.site2.setText("   距离：" + String.valueOf(distance) + "米");
+			holder.site1.setText(String.valueOf(distance) + "米   ");
 		} else {
-			holder.site2.setText("   距离：" + "未知");
+			holder.site1.setText("   ");
 		}
-		//点击头像放大
+		// 点击头像放大
 		holder.avatar.setOnClickListener(new OnClickListener() {
 
 			@Override
 			public void onClick(View view) {
 			}
 		});
-		//添加好友
+		// 添加好友
 		holder.comment.setOnClickListener(new OnClickListener() {
 
 			@Override
@@ -158,7 +158,7 @@ public class FeedListAdapter extends BaseAdapter {
 				query.getObject(FeedListAdapter.this.context, id, new GetListener<User>() {
 					@Override
 					public void onSuccess(User user) {
-						Intent intent = new Intent(FeedListAdapter.this.context,SetMyInfoActivity.class);
+						Intent intent = new Intent(FeedListAdapter.this.context, SetMyInfoActivity.class);
 						intent.putExtra("from", "add");
 						intent.putExtra("username", user.getUsername());
 						progress.dismiss();
@@ -173,7 +173,7 @@ public class FeedListAdapter extends BaseAdapter {
 				});
 			}
 		});
-		//申请加入
+		// 申请加入
 		holder.more.setOnClickListener(new OnClickListener() {
 
 			@Override
@@ -201,6 +201,12 @@ public class FeedListAdapter extends BaseAdapter {
 			news.add(hm);
 		}
 		Collections.reverse(news);
+	}
+
+	public void addReserveNews(List<HashMap<String, String>> addNews) {
+		for (HashMap<String, String> hm : addNews) {
+			news.add(hm);
+		}
 	}
 
 	private static final double EARTH_RADIUS = 6378137;

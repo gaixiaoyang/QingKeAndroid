@@ -28,11 +28,14 @@
 
                 <ImageView
                     android:id="@+id/feed_item_iv_avatar"
-                    style="@style/Smile.ImageView"
-	                android:layout_width="50dp"
-	                android:layout_height="50dp"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
                     android:layout_alignParentLeft="true"
-	                android:src="@drawable/head" />
+                    android:layout_alignParentRight="false"
+                    android:adjustViewBounds="true"
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/head" 
+                    android:contentDescription="head"/>
 
                 <LinearLayout
                     android:id="@+id/feed_item_layout_time"
@@ -144,11 +147,6 @@
                 android:minWidth="50dip" 
                 android:clickable="true">
 
-                <View
-                    android:layout_width="1px"
-                    android:layout_height="fill_parent"
-                    android:background="#ffdfdfdf" />
-
                 <LinearLayout
                     android:id="@+id/feed_item_layout_comment"
                     android:layout_width="fill_parent"
@@ -193,7 +191,7 @@
                 android:layout_alignParentLeft="true"
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="5dip"
-                android:layout_marginRight="20dip"
+                android:layout_marginRight="5dip"
                 android:layout_toLeftOf="@+id/feed_item_layout_commentcount"
                 android:gravity="center_vertical"
                 android:orientation="horizontal" >
@@ -213,7 +211,7 @@
                     android:ellipsize="middle"
                     android:gravity="right"
                     android:singleLine="true"
-                    android:textColor="@color/TextRed"
+                    android:textColor="@color/feed_site_textcolor"
                     android:textSize="12sp" />
                 
                  <View
@@ -229,7 +227,7 @@
                     android:ellipsize="middle"
                     android:gravity="right"
                     android:singleLine="true"
-                    android:textColor="@color/feed_site_textcolor"
+                    android:textColor="@color/TextRed"
                     android:textSize="12sp" />
             </LinearLayout>
         </RelativeLayout>

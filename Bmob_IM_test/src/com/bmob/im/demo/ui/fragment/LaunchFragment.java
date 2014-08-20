@@ -16,6 +16,7 @@ import cn.bmob.v3.listener.*;
 import com.bmob.im.demo.*;
 import com.bmob.im.demo.bean.*;
 import com.bmob.im.demo.ui.*;
+import com.bmob.im.demo.util.*;
 
 /**
  * 发起请客
@@ -85,14 +86,31 @@ public class LaunchFragment extends FragmentBase implements OnClickListener {
 			String content = tv_content.getText().toString();
 			if(time == null || time.trim().equals("")){
 				showSaveSuccessDialog("请选择时间 ...");
+				control = true;
 				return;
+			}else{
+				try {
+					long userTime = TimeUtil.stringToLong(time, "yyyy-MM-dd");
+					Calendar cal = Calendar.getInstance();
+					cal.add(Calendar.DAY_OF_MONTH, +30);
+					long systime = TimeUtil.dateToLong(cal.getTime());
+					if(userTime >= systime){
+						showSaveSuccessDialog("时间不要超过30天 ...");
+						control = true;
+						return;
+					}
+				} catch (Exception e1) {
+					e1.printStackTrace();
+				}
 			}
 			if(address == null || address.trim().equals("")){
 				showSaveSuccessDialog("请输入地点 ...");
+				control = true;
 				return;
 			}
 			if(content == null || content.trim().equals("")){
 				showSaveSuccessDialog("请填写说明 ...");
+				control = true;
 				return;
 			}
 			User user = userManager.getCurrentUser(User.class);
@@ -164,7 +182,12 @@ public class LaunchFragment extends FragmentBase implements OnClickListener {
 		new DatePickerDialog(LaunchFragment.this.getActivity(), new DatePickerDialog.OnDateSetListener() {
 			@Override
 			public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
-				tv_time.setText(year + "-" + (monthOfYear + 1) + "-" + dayOfMonth);
+				monthOfYear = monthOfYear + 1;
+				if(monthOfYear >= 1 && monthOfYear <= 9){
+					tv_time.setText(year + "-0" + monthOfYear + "-" + dayOfMonth);
+				}else{
+					tv_time.setText(year + "-" + monthOfYear + "-" + dayOfMonth);
+				}
 			}
 		}, c.get(Calendar.YEAR), c.get(Calendar.MONTH), c.get(Calendar.DAY_OF_MONTH)).show();
 	}

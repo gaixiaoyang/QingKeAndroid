@@ -69,6 +69,21 @@ public class TimeUtil {
 		} 
 		return false;
 	}
+	
+	/**
+	 * 根据时间戳获取n天后时间
+	 * 
+	 * @param timestamp
+	 *            时间戳 单位为毫秒
+	 * @return
+	 */
+	public static boolean isAfterDays(long timestamp,int n) {
+		long currentTime = System.currentTimeMillis();
+		if(timestamp > (currentTime + 24 * 60 * 60 * n * 1000)) {
+			return true;
+		} 
+		return false;
+	}
 
 	/**
 	 * 获取当前日期的指定格式的字符串
