@@ -41,7 +41,7 @@ public class ActivityFragment extends FragmentBase implements OnItemClickListene
 	
 	private PullToRefreshListView pullToRefreshListView = null;
 
-	private FeedListAdapter adapter = null;
+	private ActivityListAdapter adapter = null;
 	
 	private long currentTimeMillis = 0;
 	
@@ -67,7 +67,7 @@ public class ActivityFragment extends FragmentBase implements OnItemClickListene
 		initData();
 	};
 
-	private void initPullToRefreshListView(PullToRefreshListView rtflv, FeedListAdapter adapter) {
+	private void initPullToRefreshListView(PullToRefreshListView rtflv, ActivityListAdapter adapter) {
 		rtflv.setMode(Mode.BOTH);
 		rtflv.setOnRefreshListener(new MyOnRefreshListener2(rtflv));
 		rtflv.setAdapter(adapter);
@@ -102,7 +102,7 @@ public class ActivityFragment extends FragmentBase implements OnItemClickListene
 				}
 				progress.dismiss();
 				currentTimeMillis = System.currentTimeMillis();
-				adapter = new FeedListAdapter(ActivityFragment.this.getActivity(), ret, "activity");
+				adapter = new ActivityListAdapter(ActivityFragment.this.getActivity(), ret, "activity");
 				pullToRefreshListView = (PullToRefreshListView) ActivityFragment.this.findViewById(R.id.list_activity);
 				initPullToRefreshListView(pullToRefreshListView, adapter);
 			}
@@ -110,7 +110,7 @@ public class ActivityFragment extends FragmentBase implements OnItemClickListene
 			@Override
 			public void onError(int code, String msg) {
 				progress.dismiss();
-				adapter = new FeedListAdapter(ActivityFragment.this.getActivity(),
+				adapter = new ActivityListAdapter(ActivityFragment.this.getActivity(),
 						new ArrayList<HashMap<String, String>>(), "activity");
 				pullToRefreshListView = (PullToRefreshListView) ActivityFragment.this.findViewById(R.id.list_activity);
 				initPullToRefreshListView(pullToRefreshListView, adapter);

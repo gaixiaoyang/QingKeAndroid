@@ -7,27 +7,27 @@
     android:paddingRight="6dip" >
 
     <RelativeLayout
-        android:id="@+id/feed_item_layout_root"
+        android:id="@+id/activity_item_layout_root"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/bg_card"
         android:clickable="false" >
 
         <RelativeLayout
-            android:id="@+id/feed_item_layout_topcontent"
+            android:id="@+id/activity_item_layout_topcontent"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:padding="6dip" >
 
             <RelativeLayout
-                android:id="@+id/feed_item_layout_avatar"
+                android:id="@+id/activity_item_layout_avatar"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:layout_alignParentTop="true"
                 android:layout_marginBottom="6dip" >
 
                 <ImageView
-                    android:id="@+id/feed_item_iv_avatar"
+                    android:id="@+id/activity_item_iv_avatar"
                     android:layout_width="50dp"
                     android:layout_height="50dp"
                     android:layout_alignParentLeft="true"
@@ -38,14 +38,14 @@
                     android:contentDescription="head"/>
 
                 <LinearLayout
-                    android:id="@+id/feed_item_layout_time"
+                    android:id="@+id/activity_item_layout_time"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
                     android:gravity="center" >
 
                     <com.bmob.im.demo.view.HandyTextView
-                        android:id="@+id/feed_item_htv_time"
+                        android:id="@+id/activity_item_htv_time"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textColor="@color/font_value"
@@ -56,14 +56,14 @@
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="5dip"
-                    android:layout_toLeftOf="@+id/feed_item_layout_time"
-                    android:layout_toRightOf="@+id/feed_item_iv_avatar"
+                    android:layout_toLeftOf="@+id/activity_item_layout_time"
+                    android:layout_toRightOf="@+id/activity_item_iv_avatar"
                     android:gravity="center_vertical"
                     android:minHeight="36dip"
                     android:orientation="vertical" >
 
                     <com.bmob.im.demo.view.HandyTextView
-                        android:id="@+id/feed_item_htv_name"
+                        android:id="@+id/activity_item_htv_name"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:singleLine="true"
@@ -74,34 +74,34 @@
             </RelativeLayout>
 
             <com.bmob.im.demo.view.EmoticonsTextView
-                android:id="@+id/feed_item_etv_content"
+                android:id="@+id/activity_item_etv_content"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/feed_item_layout_avatar"
+                android:layout_below="@+id/activity_item_layout_avatar"
                 android:gravity="center_vertical"
                 android:lineSpacingExtra="3dip"
                 android:textColor="@color/font_attribute"
                 android:textSize="15sp" />
 
             <ImageView
-                android:id="@+id/feed_item_iv_content"
+                android:id="@+id/activity_item_iv_content"
                 android:layout_width="80dip"
                 android:layout_height="80dip"
-                android:layout_below="@+id/feed_item_etv_content"
+                android:layout_below="@+id/activity_item_etv_content"
                 android:layout_marginTop="3dip"
                 android:scaleType="centerCrop" />
         </RelativeLayout>
 
         <RelativeLayout
-            android:id="@+id/feed_item_layout_bottomcontent"
+            android:id="@+id/activity_item_layout_bottomcontent"
             android:layout_width="fill_parent"
             android:layout_height="40dip"
-            android:layout_below="@+id/feed_item_layout_topcontent"
+            android:layout_below="@+id/activity_item_layout_topcontent"
             android:background="@drawable/bg_card_inner_bottom"
             android:duplicateParentState="true" >
             
             <LinearLayout
-                android:id="@+id/feed_item_ib_more"
+                android:id="@+id/activity_item_ib_more"
                 android:layout_width="wrap_content"
                 android:layout_height="fill_parent"
                 android:layout_alignParentRight="true"
@@ -115,35 +115,35 @@
 		            style="@style/Smile.TextView._Black"
 		            android:textColor="@color/font_value"
                     android:textSize="12sp"
-		            android:text="@+string/shutdown" />
+		            android:text="@+string/add_friend" />
                 
 	             <ImageButton
-		                android:id="@+id/ic_feed_comment_pic"
+		                android:id="@+id/ic_activity_comment_pic"
 		                android:layout_width="15dip"
 		                android:layout_height="fill_parent"
 		                android:background="@drawable/bg_card_inner_bottom_right"
 		                android:focusable="false"
 		                android:focusableInTouchMode="false"
-		                android:src="@drawable/minus_friend" />
+		                android:src="@drawable/add_friend" />
 	            
 	        </LinearLayout>
 	          
             <View
                 android:layout_width="1px"
                 android:layout_height="fill_parent"
-                android:layout_toLeftOf="@+id/feed_item_ib_more"
+                android:layout_toLeftOf="@+id/activity_item_ib_more"
                 android:background="#ffdfdfdf"
                 android:focusable="false" />
             
             <LinearLayout
-                android:id="@+id/feed_item_layout_site"
+                android:id="@+id/activity_item_layout_site"
                 android:layout_width="fill_parent"
                 android:layout_height="fill_parent"
                 android:layout_alignParentLeft="true"
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="5dip"
                 android:layout_marginRight="5dip"
-                android:layout_toLeftOf="@+id/feed_item_layout_commentcount"
+                android:layout_toLeftOf="@+id/activity_item_layout_commentcount"
                 android:gravity="center_vertical"
                 android:orientation="horizontal" >
 
@@ -155,7 +155,7 @@
                     android:src="@drawable/ic_user_location" />
 
                 <com.bmob.im.demo.view.HandyTextView
-                    android:id="@+id/feed_item_htv_site1"
+                    android:id="@+id/activity_item_htv_site1"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:duplicateParentState="true"
@@ -171,7 +171,7 @@
                     android:background="#ffdfdfdf" />
                  
                  <com.bmob.im.demo.view.HandyTextView
-                    android:id="@+id/feed_item_htv_site2"
+                    android:id="@+id/activity_item_htv_site2"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:duplicateParentState="true"

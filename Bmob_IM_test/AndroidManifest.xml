@@ -111,10 +111,6 @@
         
         <activity android:name=".ui.UserInfoActivity" />
         
-        <activity android:name=".ui.MyLaunchActivity" />
-        
-        <activity android:name=".ui.MyJoinActivity" />
-        
         <activity android:name=".ui.ApplyListActivity" />
         
         <activity

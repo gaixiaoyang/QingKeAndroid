@@ -6,68 +6,22 @@
     android:background="@color/theme_bg_color"
     android:orientation="vertical" >
 
-    <include
+       <include
         android:id="@+id/common_actionbar"
         layout="@layout/include_action_bar" />
 
-    <RelativeLayout
-        android:id="@+id/layout_my_launch"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@drawable/btn_selector"
-        android:minHeight="50dp"
-        android:padding="10dp" >
-
-        <TextView
-            style="@style/Smile.TextView._Black"
-            android:layout_alignParentLeft="true"
-            android:layout_centerVertical="true"
-            android:text="@string/set_mylaunch" />
-
-        <TextView
-            android:id="@+id/tv_set_name"
-            style="@style/Smile.TextView._Black"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:layout_marginRight="10dp"
-            android:drawablePadding="10dp"
-            android:drawableRight="@drawable/register_bottom_arrow" />
-    </RelativeLayout>
-    
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/base_line_width_2"
-        android:background="@drawable/base_horizontal_line" >
-    </View>
-    
-    <RelativeLayout
-        android:id="@+id/layout_my_join"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@drawable/btn_selector"
-        android:minHeight="50dp"
-        android:padding="10dp" >
-
-        <TextView
-            style="@style/Smile.TextView._Black"
-            android:layout_alignParentLeft="true"
-            android:layout_centerVertical="true"
-            android:text="@string/set_myjoin" />
-
-        <TextView
-            android:id="@+id/tv_set_user"
-            style="@style/Smile.TextView._Black"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:layout_marginRight="10dp"
-            android:drawablePadding="10dp"
-            android:drawableRight="@drawable/register_bottom_arrow" />
-    </RelativeLayout>
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/base_line_width_2"
-        android:background="@drawable/base_horizontal_line" >
-    </View>
+    <com.handmark.pulltorefresh.library.PullToRefreshListView
+        xmlns:ptr="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/list_activity"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:fadingEdge="none"
+        android:divider="@drawable/divider"
+        android:fastScrollEnabled="false"
+        android:footerDividersEnabled="false"
+        android:headerDividersEnabled="false"
+        android:smoothScrollbar="true"
+        ptr:ptrAnimationStyle="flip" >
+    </com.handmark.pulltorefresh.library.PullToRefreshListView>
     
 </LinearLayout>

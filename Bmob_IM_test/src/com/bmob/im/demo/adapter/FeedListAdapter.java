@@ -3,18 +3,15 @@ package com.bmob.im.demo.adapter;
 import java.util.*;
 
 import android.app.*;
-import android.app.AlertDialog.Builder;
 import android.content.*;
 import android.text.*;
 import android.view.*;
 import android.view.View.OnClickListener;
 import android.widget.*;
-import cn.bmob.v3.*;
 import cn.bmob.v3.listener.*;
 
 import com.bmob.im.demo.*;
 import com.bmob.im.demo.bean.*;
-import com.bmob.im.demo.ui.*;
 import com.bmob.im.demo.view.*;
 import com.nostra13.universalimageloader.core.*;
 import com.nostra13.universalimageloader.core.display.*;
@@ -40,7 +37,7 @@ public class FeedListAdapter extends BaseAdapter {
 		HandyTextView name;
 		EmoticonsTextView content;
 		ImageView contentImage;
-		LinearLayout more;
+		// LinearLayout more;
 		LinearLayout comment;
 		HandyTextView commentCount;
 		HandyTextView site1;
@@ -76,6 +73,14 @@ public class FeedListAdapter extends BaseAdapter {
 		return position;
 	}
 
+	public void remove(int position) {
+		news.remove(position);
+	}
+
+	public void remove(HashMap<String, String> item) {
+		news.remove(item);
+	}
+
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
 
@@ -89,11 +94,8 @@ public class FeedListAdapter extends BaseAdapter {
 			holder.name = (HandyTextView) convertView.findViewById(R.id.feed_item_htv_name);
 			holder.content = (EmoticonsTextView) convertView.findViewById(R.id.feed_item_etv_content);
 			holder.contentImage = (ImageView) convertView.findViewById(R.id.feed_item_iv_content);
-			holder.more = (LinearLayout) convertView.findViewById(R.id.feed_item_ib_more);
-			holder.more.setTag(getItem(position).get("id"));
-			holder.comment = (LinearLayout) convertView.findViewById(R.id.feed_item_layout_comment);
-			holder.comment.setTag(getItem(position).get("id"));
-			holder.commentCount = (HandyTextView) convertView.findViewById(R.id.feed_item_htv_commentcount);
+			holder.comment = (LinearLayout) convertView.findViewById(R.id.feed_item_ib_more);
+			holder.comment.setTag(getItem(position).get("objectId") + "{]" + position);
 			holder.site1 = (HandyTextView) convertView.findViewById(R.id.feed_item_htv_site1);
 			holder.site2 = (HandyTextView) convertView.findViewById(R.id.feed_item_htv_site2);
 			convertView.setTag(holder);
@@ -143,38 +145,57 @@ public class FeedListAdapter extends BaseAdapter {
 			public void onClick(View view) {
 			}
 		});
-		// 添加好友
+		// 关闭请客
 		holder.comment.setOnClickListener(new OnClickListener() {
 
 			@Override
 			public void onClick(View view) {
 				final ProgressDialog progress = new ProgressDialog(FeedListAdapter.this.context);
-				progress.setMessage("正在添加好友...");
+				progress.setMessage("正在关闭请客...");
 				progress.setCanceledOnTouchOutside(false);
 				progress.show();
 				LinearLayout nameView = (LinearLayout) view;
-				String id = nameView.getTag().toString();
-				BmobQuery<User> query = new BmobQuery<User>();
-				query.getObject(FeedListAdapter.this.context, id, new GetListener<User>() {
-					@Override
-					public void onSuccess(User user) {
-						Intent intent = new Intent(FeedListAdapter.this.context, SetMyInfoActivity.class);
-						intent.putExtra("from", "add");
-						intent.putExtra("username", user.getUsername());
-						progress.dismiss();
-						FeedListAdapter.this.context.startActivity(intent);
-					}
+				String str = nameView.getTag().toString();
+				String id = str.split("\\{\\]")[0];
+				final String position = str.split("\\{\\]")[1];
+				Activitys activity = new Activitys();
+				activity.setObjectId(id);
+				activity.delete(FeedListAdapter.this.context, new DeleteListener() {
 
-					@Override
-					public void onFailure(int code, String msg) {
-						Toast.makeText(FeedListAdapter.this.context, "请检查网络", Toast.LENGTH_SHORT).show();
-						progress.dismiss();
-					}
+				    @Override
+				    public void onSuccess() {
+				    	try {
+				    		if(isNumeric(position)){
+				    			int pos = getCount() - Integer.parseInt(position) - 1;
+				    			FeedListAdapter.this.remove(pos);
+				    			FeedListAdapter.this.notifyDataSetChanged();
+				    		}
+						} catch (Exception e) {
+							e.printStackTrace();
+						}
+				    	progress.dismiss();
+				    	Toast.makeText(FeedListAdapter.this.context, "删除成功", Toast.LENGTH_SHORT).show();
+				    }
+
+				    @Override
+				    public void onFailure(int code, String msg) {
+				    	try {
+				    		if(isNumeric(position)){
+				    			int pos = getCount() - Integer.parseInt(position) - 1;
+				    			FeedListAdapter.this.remove(pos);
+				    			FeedListAdapter.this.notifyDataSetChanged();
+				    		}
+						} catch (Exception e) {
+							e.printStackTrace();
+						}
+				    	progress.dismiss();
+				    	Toast.makeText(FeedListAdapter.this.context, "请检查网络", Toast.LENGTH_SHORT).show();
+				    }
 				});
 			}
 		});
 		// 申请加入
-		holder.more.setOnClickListener(new OnClickListener() {
+		/*holder.more.setOnClickListener(new OnClickListener() {
 
 			@Override
 			public void onClick(View view) {
@@ -190,10 +211,10 @@ public class FeedListAdapter extends BaseAdapter {
 				});
 				builder.create().show();
 			}
-		});
+		});*/
 		return convertView;
 	}
-
+	
 	public void addNews(List<HashMap<String, String>> addNews) {
 		Collections.reverse(news);
 		Collections.reverse(addNews);
@@ -236,4 +257,12 @@ public class FeedListAdapter extends BaseAdapter {
 		return s;
 	}
 
+	public static boolean isNumeric(String str) {
+		for (int i = str.length(); --i >= 0;) {
+			if (!Character.isDigit(str.charAt(i))) {
+				return false;
+			}
+		}
+		return true;
+	}
 }
